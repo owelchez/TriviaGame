@@ -1,5 +1,14 @@
 # TriviaGame
 
+Week 5 Assignment
+Objectives
+
+You will create a Trivia game.
+
+You will use HTML, CSS to render the game on the web page.
+
+You will use JavaScript for the logic of the game and jQuery to manipulate the html of the game.
+
 Basic Assignment User Story
 
 You are creating a basic trivia game with multiple choice or true/false options.

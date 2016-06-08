@@ -1,0 +1,14 @@
+
+
+
+
+
+
+
+
+
+
+var capitales = {
+    country: "",
+    capital: "",
+    },
