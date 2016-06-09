@@ -1,0 +1,22 @@
+
+
+
+#startButton
+{
+	border-color: #ff2d57;
+	
+	border-width: 2px;
+	background-image: url('../images/worldFlags2.svg');
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -50px;
+    width: 100px;
+    height: 100px;
+}
+
+#startButton p
+{
+	text-align: center;
+}
