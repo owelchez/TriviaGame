@@ -16,3 +16,15 @@ body
 	font-family: cursive;
 	color: #337ab7;
 }
+
+.panel-default .panel-heading
+{
+	text-align: center;
+	background-color: #337ab7;
+}
+
+.panel-body
+{
+	background-color: bisque;
+}
+

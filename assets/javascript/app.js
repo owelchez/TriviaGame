@@ -1,8 +1,14 @@
-var flagArray = ['argentina', 'belgium', 'bolivia', 'brazil', 'canada', 'chile', 'china', 'colombia',
-                'cuba', 'dominicanRepublic', 'ecuador', 'elSalvador', 'france', 'germany', 'greece',
-                'guatemala', 'honduras', 'israel', 'italy', 'jamaica', 'japan', 'mexico', 'netherlands',
-                'nicaragua', 'panama', 'peru', 'philippines', 'poland', 'portugal', 'southAfrica', 'southKorea',
-                'spain', 'sweden', 'switzerland', 'thailand', 'turkey', 'uruguay', 'usa'];
+var flagArray = ['Argentina', 'Belgium', 'Bolivia', 'Brazil', 'Canada', 'Chile', 'China', 'Colombia',
+                'Cuba', 'Dominican Republic', 'Ecuador', 'El Salvador', 'France', 'Germany', 'Greece',
+                'Guatemala', 'Honduras', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Mexico', 'Netherlands',
+                'Nicaragua', 'Panama', 'Peru', 'Philippines', 'Poland', 'Portugal', 'South Africa', 'South Korea',
+                'Spain', 'Sweden', 'Switzerland', 'Thailand', 'Turkey', 'Uruguay', 'USA'];  
+
+	var randomFlag = flagArray[Math.floor(Math.random() * flagArray.length)];
+	console.log(randomFlag);
+
+ $('#question1').append('<span id="question1">' + randomFlag + '</span>')
+
 
 
 
