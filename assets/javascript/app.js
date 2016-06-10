@@ -7,10 +7,10 @@ var flagArray = ['Argentina', 'Belgium', 'Bolivia', 'Brazil', 'Canada', 'Chile',
 	var randomFlag = flagArray[Math.floor(Math.random() * flagArray.length)];
 	console.log(randomFlag);
 
- $('#question1').append('<span id="question1">' + randomFlag + '</span>')
+ $('#question1').append('<span id="question1">' + randomFlag + '</span>');
 
 
-
+$('.panel-body').append('<div id="flags1">' + '</div>');
 
 
 
