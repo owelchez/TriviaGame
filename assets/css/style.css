@@ -1,22 +1,18 @@
-
-
-
-#startButton
+.jumbotron
 {
-	border-color: #ff2d57;
-	
-	border-width: 2px;
-	background-image: url('../images/worldFlags.png');
-	position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -50px;
-    margin-left: -50px;
-    width: 100px;
-    height: 100px;
+	background-image: url('../images/banner.jpg');
+	background-size: cover;
 }
 
-#startButton p
+body
+{
+	position: relative;
+	background-image: url('../images/gradient4.jpg');
+}
+
+#title
 {
 	text-align: center;
+	font-family: cursive;
+	color: #337ab7;
 }
