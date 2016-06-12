@@ -4,10 +4,36 @@
 	background-size: cover;
 }
 
+.col-md-2
+{
+	
+}
+
+input[type=checkbox], input[type=radio] 
+{
+    margin-left:  85px;
+    margin-top: 1px\9;
+    line-height: normal;
+}
+
+img
+{
+	margin: 10px;
+	width: 160px;
+	height: 90px;
+	float: left;
+}
+
 body
 {
 	position: relative;
 	background-image: url('../images/gradient4.jpg');
+}
+
+.container
+{
+	width: 180px;
+	float: left;
 }
 
 #title
@@ -28,5 +54,5 @@ body
 	background-color: bisque;
 }
 
-#flags
+
 
