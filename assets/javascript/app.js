@@ -1,8 +1,7 @@
-window.onload = function()
+function clock()
 {
 	$('#start').on('click', stopwatch.start);
 };
-
 
 var stopwatch = 
 {
@@ -17,6 +16,9 @@ var stopwatch =
 	},
     start: function()
     {
+    	$('#start').on('click', function(){
+        	$('#start').hide();
+        })
         counter = setInterval(stopwatch.count, 1000);
     },
     
@@ -42,6 +44,25 @@ var stopwatch =
         return minutes + ":" + seconds;
     }
 };
+
+clock();
+
+$('#start').on('click', function(){
+        	$('#start').hide();
+        })
+
+$('.hideWrapper').hide();
+
+
+
+
+
+/*$('div:not(#myDiv)').hide();  // hide everything that isn't #myDiv
+$('#myDiv').appendTo('body');  // move #myDiv up to the body*/
+
+
+
+
 
 
 
