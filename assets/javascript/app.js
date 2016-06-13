@@ -1,14 +1,47 @@
-/*var countryArray = ['Argentina', 'Belgium', 'Bolivia', 'Brazil', 'Canada', 'Chile', 'China', 'Colombia',
-                'Cuba', 'Dominican Republic', 'Ecuador', 'El Salvador', 'France', 'Germany', 'Greece',
-                'Guatemala', 'Honduras', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Mexico', 'Netherlands',
-                'Nicaragua', 'Panama', 'Peru', 'Philippines', 'Poland', 'Portugal', 'South Africa', 'South Korea',
-                'Spain', 'Sweden', 'Switzerland', 'Thailand', 'Turkey', 'Uruguay', 'USA']; 
-
-var flagsArray = ["../images/flagArgentina.png", "../images/flagBelgium.png", "../images/flagBolivia.png",
-				"../images/flagBrazil.png", "../images/flagCanada"];*/
+window.onload = function()
+{
+	$('#start').on('click', stopwatch.start);
+};
 
 
- 
+var stopwatch = 
+{
+	time:0,
+	lap:1,
+	reset: function()
+	{
+	    stopwatch.time = 0;
+	    stopwatch.lap = 1;
+	    $('#timer').html('00:00');
+	    $('#laps').html('');
+	},
+    start: function()
+    {
+        counter = setInterval(stopwatch.count, 1000);
+    },
+    
+    count: function()
+    {
+        stopwatch.time++;
+        var converted = stopwatch.timeConverter(stopwatch.time);
+        $('#timer').html(converted);
+    },
+
+    timeConverter: function(t)
+    {
+        var minutes = Math.floor(t/60);
+        var seconds = t - (minutes * 60);
+        if (seconds < 10){
+            seconds = "0" + seconds;
+        }
+        if (minutes === 0){
+            minutes = "00";
+        } else if (minutes < 10){
+            minutes = "0" + minutes;
+        }
+        return minutes + ":" + seconds;
+    }
+};
 
 
 
@@ -19,15 +52,8 @@ var flagsArray = ["../images/flagArgentina.png", "../images/flagBelgium.png", ".
 
 
 
-// $('#class1').append('<span>' + '<p>'Which of the following group of flags belong to '</p>''</span>');
-
-// $('.flagsGroup').append(('<div class="flagImages">') + flagsArray[0]);
-
-// var randomNumber = Math.floor(Math.random() * flagsArray.length);
-
-
-// $('.panel-body').append('<div id="flags1">' + countryArray[1] + '</div>');
-
-/* var randomCountry = countryArray[Math.floor(Math.random() * countryArray.length)];
-	console.log(randomCountry);*/
-
+if(document.getElementById('gender_Male').checked) {
+  //Male radio button is checked
+}else if(document.getElementById('gender_Female').checked) {
+  //Female radio button is checked
+}
