@@ -11,6 +11,12 @@
 	float: right;
 }
 
+h3
+{
+	text-align: center;
+	color: #d2cfca;
+}
+
 #wrapper
 {
 	display:block;

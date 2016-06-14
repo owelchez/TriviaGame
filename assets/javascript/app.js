@@ -1,3 +1,8 @@
+var correctFlags = 0;
+var wrongFlags = 0;
+var stopTime;
+
+
 function clock()
 {
 	$('#start').on('click', stopwatch.start);
@@ -6,20 +11,15 @@ function clock()
 var stopwatch = 
 {
 	time:0,
-	lap:1,
-	reset: function()
-	{
-	    stopwatch.time = 0;
-	    stopwatch.lap = 1;
-	    $('#timer').html('00:00');
-	    $('#laps').html('');
-	},
+
     start: function()
     {
-    	$('#start').on('click', function(){
-        	$('#start').hide();
-        })
         counter = setInterval(stopwatch.count, 1000);
+    },
+
+    stop: function()
+    {
+        clearInterval(counter);
     },
     
     count: function()
@@ -45,36 +45,48 @@ var stopwatch =
     }
 };
 
-clock();
+function initializeGame()
+{
+	clock();
+
+	correctFlags = 0;
+	wrongFlags = 0;
+
+$('#question1, #question2, #question3, #question4, #question5, #question6, #question7, #question8, #question9, #question10').hide();
 
 $('#start').on('click', function(){
         	$('#start').hide();
+        	$('h3').hide();
+        	$('#question1').show();
         })
 
-$('.hideWrapper').hide();
+};
+
+function question1()
+{
+	$('.rightAnswer').one('click', function()
+	{
+		correctFlags++;
+		$('.wrongAnswer').hide();
+	})
+
+		$('.wrongAnswer').one('click', function()
+		{
+			wrongFlags++;
+			$('.wrongAnswer').hide();
+			$('.rightAnswer').off('click');
+		})
+
+};
 
 
 
 
 
-/*$('div:not(#myDiv)').hide();  // hide everything that isn't #myDiv
-$('#myDiv').appendTo('body');  // move #myDiv up to the body*/
+initializeGame();
+question1();
+
+console.log(correctFlags);
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-if(document.getElementById('gender_Male').checked) {
-  //Male radio button is checked
-}else if(document.getElementById('gender_Female').checked) {
-  //Female radio button is checked
-}
