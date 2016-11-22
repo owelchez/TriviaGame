@@ -7,6 +7,7 @@ var stopTime = 0;
 var $questions = 0;
 var activeFlag = '';
 var renderedFlags = [];
+var countryName = '';
 
 var flags = [  "Honduras", "Japan", "Jamaica",
                 "USA", "Panama", "Germany",
@@ -33,17 +34,27 @@ function getRandomFlag(){
     activeFlag = flags[Math.floor(Math.random() * (1 + flags.length - 1))];
 };
 
+function getRandomCountryName(){
+    countryName = renderedFlags[Math.floor(Math.random() * (1 + flags.length - 1))];
+};
+
 function flagsArray(){
     for(i = 0; i < 4; i++){
         getRandomFlag()
         renderedFlags.push(activeFlag);
     }
+        getRandomCountryName();
 };
 
 function renderFlagsArray(renderedFlags){
     for(i = 0; i < 4; i++){
         $('#flagContainer').append("<img src='assets/images/" + renderedFlags[i] + ".png' value=" + renderedFlags[i] + "/>");
     }
+    $('#countryName').after(countryName);
+};
+
+function selectRandomCountry(){
+
 };
 
     function clock(){
