@@ -1,38 +1,34 @@
 var correctFlags = 0;
 var wrongFlags = 0;
+var totalFlags = 20;
+var minutes = 0;
+var seconds = 0;
 var stopTime;
 
-
-function clock()
-{
+function clock(){
 	$('#start').on('click', stopwatch.start);
 };
 
-var stopwatch = 
-{
+var stopwatch = {
 	time:0,
 
-    start: function()
-    {
+    start: function(){
         counter = setInterval(stopwatch.count, 1000);
     },
 
-    stop: function()
-    {
+    stop: function(){
         clearInterval(counter);
     },
     
-    count: function()
-    {
+    count: function(){
         stopwatch.time++;
         var converted = stopwatch.timeConverter(stopwatch.time);
         $('#timer').html(converted);
     },
 
-    timeConverter: function(t)
-    {
-        var minutes = Math.floor(t/60);
-        var seconds = t - (minutes * 60);
+    timeConverter: function(t){
+        minutes = Math.floor(t/60);
+        seconds = t - (minutes * 60);
         if (seconds < 10){
             seconds = "0" + seconds;
         }
@@ -49,29 +45,17 @@ var stopwatch =
 
 	correctFlags = 0;
 	wrongFlags = 0;
-    var currentQuestion = 1;
 
-$('#question1, #question2, #question3, #question4, #question5, #question6, #question7, #question8, #question9, #question10').hide();
+$('#questions').hide();
 
 $('#start').on('click', function(){
         	$('#start').hide();
-        	$('h3').hide();
-            $('#question1').show();
+        	$('#intro').hide();
+            $('#questions').show();
         })
 
 
-	$('.rightAnswer1').on('click', function(){
-        correctFlags++;
-        $('.wrongAnswer' + currentQuestion).hide();
-        currentQuestion++;
-        $('#question' + currentQuestion).show();
-        $('.wrongAnswer' + currentQuestion).one('click', function(){
-            currentQuestion++;
-            $('.wrongAnswer' + currentQuestion).hide();
-            wrongFlags++;
-            $('.rightAnswer' + currentQuestion).off('click');          
-        })
-	})
+
 
 
 
@@ -81,4 +65,3 @@ $('#start').on('click', function(){
 
 console.log(correctFlags);
 console.log(wrongFlags);
-
