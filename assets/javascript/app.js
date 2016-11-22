@@ -32,6 +32,10 @@ function getRandomFlag(){
     activeFlag = flags[Math.floor(Math.random() * (1 + flags.length - 1))];
 }
 
+getRandomFlag();
+console.log(activeFlag);
+$('#flagContainer').append('<img src="assets/images/' + activeFlag + '.png"/>');
+
     function clock(){
     	$('#start').on('click', stopwatch.start);
     };
