@@ -6,35 +6,45 @@ var seconds = 0;
 var stopTime = 0;
 var $questions = 0;
 var activeFlag = '';
+var renderedFlags = [];
 
-var flags = [  "flagHonduras", "flagJapan", "flagJamaica",
-                "flagUSA", "flagPanama", "flagGermany",
-                "flagArgentina", "flagAustria", "flagBarbados",
-                "flagBelgium", "flagBelize", "flagBolivia",
-                "flagBrazil", "flagBulgaria", "flagCanada",
-                "flagChile", "flagChina", "flagColombia",
-                "flagCuba", "flagDominicanRepublic", "flagEcuador",
-                "flagEgypt", "flagElSalvador", "flagEstonia",
-                "flagFrance", "flagGreece", "flagGuatemala",
-                "flagIndia", "flagIreland", "flagIsrael",
-                "flagItaly", "flagJamaica", "flagKenya",
-                "flagLaos", "flagMadagascar", "flagMexico",
-                "flagMongolia", "flagNetherlands", "flagNicaragua",
-                "flagPanama", "flagPeru", "flagPhilippines",
-                "flagPoland", "flagPortugal", "flagSaudiArabia",
-                "flagSlovakia", "flagSouthAfrica", "flagSouthKorea",
-                "flagSpain", "flagSweden", "flagSwitzerland",
-                "flagThailand", "flagTurkey", "flagUruguay",
-                "flagUSA"
+var flags = [  "Honduras", "Japan", "Jamaica",
+                "USA", "Panama", "Germany",
+                "Argentina", "Austria", "Barbados",
+                "Belgium", "Belize", "Bolivia",
+                "Brazil", "Bulgaria", "Canada",
+                "Chile", "China", "Colombia",
+                "Cuba", "DominicanRepublic", "Ecuador",
+                "Egypt", "ElSalvador", "Estonia",
+                "France", "Greece", "Guatemala",
+                "India", "Ireland", "Israel",
+                "Italy", "Jamaica", "Kenya",
+                "Laos", "Madagascar", "Mexico",
+                "Mongolia", "Netherlands", "Nicaragua",
+                "Panama", "Peru", "Philippines",
+                "Poland", "Portugal", "SaudiArabia",
+                "Slovakia", "SouthAfrica", "SouthKorea",
+                "Spain", "Sweden", "Switzerland",
+                "Thailand", "Turkey", "Uruguay",
+                "USA"
             ];
 
 function getRandomFlag(){
     activeFlag = flags[Math.floor(Math.random() * (1 + flags.length - 1))];
-}
+};
 
-getRandomFlag();
-console.log(activeFlag);
-$('#flagContainer').append('<img src="assets/images/' + activeFlag + '.png"/>');
+function flagsArray(){
+    for(i = 0; i < 4; i++){
+        getRandomFlag()
+        renderedFlags.push(activeFlag);
+    }
+};
+
+function renderFlagsArray(renderedFlags){
+    for(i = 0; i < 4; i++){
+        $('#flagContainer').append("<img src='assets/images/" + renderedFlags[i] + ".png' value=" + renderedFlags[i] + "/>");
+    }
+};
 
     function clock(){
     	$('#start').on('click', stopwatch.start);
@@ -75,23 +85,10 @@ $('#flagContainer').append('<img src="assets/images/' + activeFlag + '.png"/>');
  
 
 	clock();
-
-$('#questions').hide();
-
-$('#start').on('click', function(){
-        	$('#start').hide();
-        	$('#intro').hide();
-            $('#questions').show();
-        })
-
-
-
-
-
-
-  
-
-    
+    flagsArray(); 
+    renderFlagsArray(renderedFlags);
 
 console.log(correctFlags);
 console.log(wrongFlags);
+
+
