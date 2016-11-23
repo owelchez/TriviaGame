@@ -8,6 +8,7 @@ var $questions = 0;
 var activeFlag = '';
 var renderedFlags = [];
 var countryName = '';
+var currentQuestion = 1;
 
 var flags = [  "Honduras", "Japan", "Jamaica",
                 "USA", "Panama", "Germany",
@@ -15,16 +16,16 @@ var flags = [  "Honduras", "Japan", "Jamaica",
                 "Belgium", "Belize", "Bolivia",
                 "Brazil", "Bulgaria", "Canada",
                 "Chile", "China", "Colombia",
-                "Cuba", "DominicanRepublic", "Ecuador",
-                "Egypt", "ElSalvador", "Estonia",
+                "Cuba", "Dominican Republic", "Ecuador",
+                "Egypt", "El Salvador", "Estonia",
                 "France", "Greece", "Guatemala",
                 "India", "Ireland", "Israel",
                 "Italy", "Jamaica", "Kenya",
                 "Laos", "Madagascar", "Mexico",
                 "Mongolia", "Netherlands", "Nicaragua",
                 "Panama", "Peru", "Philippines",
-                "Poland", "Portugal", "SaudiArabia",
-                "Slovakia", "SouthAfrica", "SouthKorea",
+                "Poland", "Portugal", "Saudi Arabia",
+                "Slovakia", "South Africa", "South Korea",
                 "Spain", "Sweden", "Switzerland",
                 "Thailand", "Turkey", "Uruguay",
                 "USA"
@@ -35,7 +36,7 @@ function getRandomFlag(){
 };
 
 function getRandomCountryName(){
-    countryName = renderedFlags[Math.floor(Math.random() * (1 + flags.length - 1))];
+    countryName = renderedFlags[Math.floor(Math.random() * (1 + renderedFlags.length - 1))];
 };
 
 function flagsArray(){
@@ -44,6 +45,7 @@ function flagsArray(){
         renderedFlags.push(activeFlag);
     }
         getRandomCountryName();
+        console.log(countryName);
 };
 
 function renderFlagsArray(renderedFlags){
@@ -98,8 +100,3 @@ function selectRandomCountry(){
 	clock();
     flagsArray(); 
     renderFlagsArray(renderedFlags);
-
-console.log(correctFlags);
-console.log(wrongFlags);
-
-
