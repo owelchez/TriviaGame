@@ -1,14 +1,12 @@
-var correctFlags = 0;
-var wrongFlags = 0;
 var totalFlags = 20;
 var minutes = 0;
 var seconds = 0;
 var stopTime = 0;
 var $questions = 0;
-var activeFlag = '';
 var renderedFlags = [];
 var countryName = '';
 var currentQuestion = 1;
+const maxFlags = 4;
 
 var flags = [  "Honduras", "Japan", "Jamaica",
                 "USA", "Panama", "Germany",
@@ -33,30 +31,35 @@ var flags = [  "Honduras", "Japan", "Jamaica",
 
 function getRandomFlag(){
     activeFlag = flags[Math.floor(Math.random() * (1 + flags.length - 1))];
+    renderedFlags.push(activeFlag);
 };
 
 function getRandomCountryName(){
     countryName = renderedFlags[Math.floor(Math.random() * (1 + renderedFlags.length - 1))];
 };
 
-function flagsArray(){
-    for(i = 0; i < 4; i++){
-        getRandomFlag()
-        renderedFlags.push(activeFlag);
+function checkDuplicates(i){
+    for(innerArray = 0; innerArray < maxFlags; innerArray++){
+        if(renderedFlags[innerArray] === activeFlag){
+            renderedFlags.pop();
+            i--;
+        }
     }
-        getRandomCountryName();
-        console.log(countryName);
+};
+
+function flagsArray(){
+  for(i = 0; i < maxFlags; i++){
+    getRandomFlag();
+  }
 };
 
 function renderFlagsArray(renderedFlags){
-    for(i = 0; i < 4; i++){
+    for(i = 0; i < maxFlags; i++){
         $('#flagContainer').append("<img src='assets/images/" + renderedFlags[i] + ".png' value=" + renderedFlags[i] + "/>");
     }
+    getRandomCountryName();
+    console.log(countryName);
     $('#countryName').after(countryName);
-};
-
-function selectRandomCountry(){
-
 };
 
     function clock(){
@@ -100,3 +103,8 @@ function selectRandomCountry(){
 	clock();
     flagsArray(); 
     renderFlagsArray(renderedFlags);
+
+    // After letter found, remove dash from iterated index
+                        //dashes.splice(i, 0);
+                        // Then insert letter inputed by user
+                        //dashes.splice(i, 1, userInput);
