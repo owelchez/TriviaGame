@@ -15,7 +15,7 @@ body
 
 .container
 {
-	max-width: 732px;
+	width: 732px;
  	/*I need to work in a way to stop the container from stretching more to be able to have all flags in line (media queries maybe)*/
 }
 
