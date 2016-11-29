@@ -34,44 +34,39 @@ function getRandomFlag(){
         activeFlag = flags[Math.floor(Math.random() * (1 + flags.length - 1))];
         renderedFlags.push(activeFlag);
     }
+        $('#flagContainer').empty();
+        $('#countryName').empty();
     console.log(renderedFlags);
     getRandomCountryName();
-    checkDuplicates();
+    renderFlagsArray();
+    findDuplicates();
 };
+
+function findDuplicates(){
+    var sortedFlags = renderedFlags.slice().sort();
+        for (var i = 0; i < renderedFlags.length - 1; i++){
+            if (sortedFlags[i + 1] === sortedFlags[i]){
+                console.log('We have a duplicate! Randomizing again!');
+                renderedFlags = [];
+                countryName = '';
+                getRandomFlag();
+            }
+        }
+};
+
 
 function getRandomCountryName(){
     countryName = renderedFlags[Math.floor(Math.random() * (1 + renderedFlags.length - 1))];
-    console.log(countryName);
 };
 
-function checkDuplicates(){
-   for(index = 0; index < renderedFlags.length; index++){
-    if(renderedFlags[index] === (renderedFlags[index+1] 
-        || renderedFlags[index+2] 
-        || renderedFlags[index+3]
-        || renderedFlags[index+4])){
-        console.log("Duplicates found!!");
-        console.log(renderedFlags);
-        renderedFlags.splice(0);
-        getRandomFlag();
-        console.log("Duplicates found!!");
-    }
-   }
-};
-
-/*var indexToRemove = 0;
-var numberToRemove = 1;
-
-arr.splice(indexToRemove, numberToRemove);*/
-
-function renderFlagsArray(renderedFlags){
+function renderFlagsArray(){
     for(i = 0; i < maxFlags; i++){
         $('#flagContainer').append("<img src='assets/images/" + renderedFlags[i] + ".png' value=" + renderedFlags[i] + "/>");
     }
-    getRandomCountryName();
     console.log(countryName);
-    $('#countryName').after(countryName);
+    $('#countryName').html(countryName);
 };
+
 
     function clock(){
     	$('#start').on('click', stopwatch.start);
@@ -112,11 +107,5 @@ function renderFlagsArray(renderedFlags){
  
 
 	clock();
-    getRandomFlag(function(){
-        checkDuplicates();
-    });
+    getRandomFlag();
 
-    // After letter found, remove dash from iterated index
-                        //dashes.splice(i, 0);
-                        // Then insert letter inputed by user
-                        //dashes.splice(i, 1, userInput);
