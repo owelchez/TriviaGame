@@ -30,28 +30,39 @@ var flags = [  "Honduras", "Japan", "Jamaica",
             ];
 
 function getRandomFlag(){
-    activeFlag = flags[Math.floor(Math.random() * (1 + flags.length - 1))];
-    renderedFlags.push(activeFlag);
+    for(i = 0; i < maxFlags; i++){
+        activeFlag = flags[Math.floor(Math.random() * (1 + flags.length - 1))];
+        renderedFlags.push(activeFlag);
+    }
+    console.log(renderedFlags);
+    getRandomCountryName();
+    checkDuplicates();
 };
 
 function getRandomCountryName(){
     countryName = renderedFlags[Math.floor(Math.random() * (1 + renderedFlags.length - 1))];
+    console.log(countryName);
 };
 
-function checkDuplicates(i){
-    for(innerArray = 0; innerArray < maxFlags; innerArray++){
-        if(renderedFlags[innerArray] === activeFlag){
-            renderedFlags.pop();
-            i--;
-        }
+function checkDuplicates(){
+   for(index = 0; index < renderedFlags.length; index++){
+    if(renderedFlags[index] === (renderedFlags[index+1] 
+        || renderedFlags[index+2] 
+        || renderedFlags[index+3]
+        || renderedFlags[index+4])){
+        console.log("Duplicates found!!");
+        console.log(renderedFlags);
+        renderedFlags.splice(0);
+        getRandomFlag();
+        console.log("Duplicates found!!");
     }
+   }
 };
 
-function flagsArray(){
-  for(i = 0; i < maxFlags; i++){
-    getRandomFlag();
-  }
-};
+/*var indexToRemove = 0;
+var numberToRemove = 1;
+
+arr.splice(indexToRemove, numberToRemove);*/
 
 function renderFlagsArray(renderedFlags){
     for(i = 0; i < maxFlags; i++){
@@ -101,8 +112,9 @@ function renderFlagsArray(renderedFlags){
  
 
 	clock();
-    flagsArray(); 
-    renderFlagsArray(renderedFlags);
+    getRandomFlag(function(){
+        checkDuplicates();
+    });
 
     // After letter found, remove dash from iterated index
                         //dashes.splice(i, 0);
