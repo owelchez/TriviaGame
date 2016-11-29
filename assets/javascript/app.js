@@ -1,4 +1,4 @@
-var totalFlags = 20;
+var totalQuestions = 20;
 var minutes = 0;
 var seconds = 0;
 var stopTime = 0;
@@ -7,6 +7,7 @@ var renderedFlags = [];
 var countryName = '';
 var currentQuestion = 1;
 const maxFlags = 4;
+var questionContainer = $('#questionContainer');
 
 var flags = [  "Honduras", "Japan", "Jamaica",
                 "USA", "Panama", "Germany",
@@ -29,7 +30,12 @@ var flags = [  "Honduras", "Japan", "Jamaica",
                 "USA"
             ];
 
-function getRandomFlag(){
+function startGame(){
+    questionContainer = $('#questionContainer');
+    questionContainer.hide();
+};
+
+function getRandomFlags(){
     for(i = 0; i < maxFlags; i++){
         activeFlag = flags[Math.floor(Math.random() * (1 + flags.length - 1))];
         renderedFlags.push(activeFlag);
@@ -49,7 +55,7 @@ function findDuplicates(){
                 console.log('We have a duplicate! Randomizing again!');
                 renderedFlags = [];
                 countryName = '';
-                getRandomFlag();
+                getRandomFlags();
             }
         }
 };
@@ -61,15 +67,24 @@ function getRandomCountryName(){
 
 function renderFlagsArray(){
     for(i = 0; i < maxFlags; i++){
-        $('#flagContainer').append("<img src='assets/images/" + renderedFlags[i] + ".png' value=" + renderedFlags[i] + "/>");
+        $('#flagContainer').append("<img src='assets/images/" + renderedFlags[i] + ".png' id='banderas' value=" + renderedFlags[i] + "/>");
     }
     console.log(countryName);
     $('#countryName').html(countryName);
 };
 
+// onclick event for flags
+$('#flagContainer').on('click', function(e){
+    console.log(e);
+});
 
     function clock(){
-    	$('#start').on('click', stopwatch.start);
+    	$('#start').on('click', function(){
+            stopwatch.start();
+            $('#start').hide();
+            getRandomFlags();
+            questionContainer.show();
+        });
     };
 
     var stopwatch = {
@@ -105,7 +120,6 @@ function renderFlagsArray(){
     };
 
  
-
+    
 	clock();
-    getRandomFlag();
-
+    startGame();
