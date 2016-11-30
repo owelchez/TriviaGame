@@ -67,15 +67,23 @@ function getRandomCountryName(){
 
 function renderFlagsArray(){
     for(i = 0; i < maxFlags; i++){
-        $('#flagContainer').append("<img src='assets/images/" + renderedFlags[i] + ".png' id='banderas' value=" + renderedFlags[i] + "/>");
+        $('#flagContainer').append('<img src="assets/images/' + renderedFlags[i] + '.png" id="' + renderedFlags[i] + '"/>');
     }
     console.log(countryName);
     $('#countryName').html(countryName);
 };
 
 // onclick event for flags
-$('#flagContainer').on('click', function(e){
-    console.log(e);
+$('#flagContainer').one('click', function(e){
+    var currentAnswer = e.target.id;
+    //console.log("You've clicked on " + e.target.id);
+    console.log(currentAnswer);
+
+    if(currentAnswer === countryName){
+        console.log("You are correct!!");
+    } else {
+        console.log("You've fucked up!!");
+    }
 });
 
     function clock(){
@@ -122,4 +130,5 @@ $('#flagContainer').on('click', function(e){
  
     
 	clock();
-    startGame();
+    //startGame();
+    getRandomFlags();
