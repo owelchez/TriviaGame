@@ -1,13 +1,24 @@
-var totalQuestions = 20;
+const totalQuestions = 20;
 var minutes = 0;
 var seconds = 0;
 var stopTime = 0;
-var $questions = 0;
 var renderedFlags = [];
 var countryName = '';
 var currentQuestion = 1;
+var currentAnswer = '';
 const maxFlags = 4;
-var questionContainer = $('#questionContainer');
+var questionContainer = $('#questionContainer'); // Not sure if this is safe
+
+/*******************************************************/
+                 /*User inputs' variables*/
+/*******************************************************/
+
+var correctAnswers = 0;
+var wrongAnswers = 0;
+var userChoices = [];
+var randomChoices = [];
+
+/*******************************************************/
 
 var flags = [  "Honduras", "Japan", "Jamaica",
                 "USA", "Panama", "Germany",
@@ -30,9 +41,22 @@ var flags = [  "Honduras", "Japan", "Jamaica",
                 "USA"
             ];
 
+startGame();
+
+
+
 function startGame(){
-    questionContainer = $('#questionContainer');
+    clock();
+
+
+};       
+
+function hidePanel(){
     questionContainer.hide();
+};
+
+function showPanel(){
+    questionContainer.show();
 };
 
 function getRandomFlags(){
@@ -60,7 +84,6 @@ function findDuplicates(){
         }
 };
 
-
 function getRandomCountryName(){
     countryName = renderedFlags[Math.floor(Math.random() * (1 + renderedFlags.length - 1))];
 };
@@ -69,29 +92,48 @@ function renderFlagsArray(){
     for(i = 0; i < maxFlags; i++){
         $('#flagContainer').append('<img src="assets/images/' + renderedFlags[i] + '.png" id="' + renderedFlags[i] + '"/>');
     }
-    console.log(countryName);
-    $('#countryName').html(countryName);
+        console.log(countryName);
+        $('#countryName').html(countryName);
+        $('#questionNumber').html(currentQuestion);
 };
 
-// onclick event for flags
-$('#flagContainer').one('click', function(e){
-    var currentAnswer = e.target.id;
+// Onclick event for flags
+$('#flagContainer').click(function(e){
+    currentAnswer = e.target.id;
     //console.log("You've clicked on " + e.target.id);
     console.log(currentAnswer);
 
     if(currentAnswer === countryName){
+        correctAnswers++;
+        userChoices.push(countryName);
+        console.log("Your choices so far are..." + userChoices);
         console.log("You are correct!!");
+        console.log("Correct Answers " + correctAnswers);
     } else {
+        wrongAnswers++;
         console.log("You've fucked up!!");
+        console.log("Wrong answers " + wrongAnswers);
+        userChoices.push(countryName);
+        console.log("Your choices so far are..." + userChoices);
     }
 });
 
+
+
+function disableClicks(){
+    $('#flagContainer').click(function(){
+        $('#flagContainer').off();
+    })
+};
+
     function clock(){
+        hidePanel();
     	$('#start').on('click', function(){
             stopwatch.start();
             $('#start').hide();
             getRandomFlags();
-            questionContainer.show();
+            showPanel();
+            disableClicks();
         });
     };
 
@@ -129,6 +171,3 @@ $('#flagContainer').one('click', function(e){
 
  
     
-	clock();
-    //startGame();
-    getRandomFlags();
