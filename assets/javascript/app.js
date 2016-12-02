@@ -62,7 +62,7 @@ function showCorrectFlagInPanel(callback){
 };
 
 function flagPause(){
-      nIntervId = setInterval(getRandomFlags, 3000);
+      anyValue = setInterval(getRandomFlags, 2000);
 }
 
 function questionsLoop(){
