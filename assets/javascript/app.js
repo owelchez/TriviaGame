@@ -43,16 +43,31 @@ var flags = [  "Honduras", "Japan", "Jamaica",
 
 startGame();
 
-
-
 function startGame(){
     clock();
-
-
 };       
 
 function hidePanel(){
     questionContainer.hide();
+};
+
+function showCorrectFlagInPanel(callback){
+// Render correct flag here
+    $('#flagContainer').empty();
+    $('#panelText').empty();
+    $('#panelText').append('<h3>The correct flag is ' + countryName + '</h3>');
+    $('#flagContainer').append('<img src="assets/images/' + countryName + '.png"/>');
+
+    callback();
+};
+
+function flagPause(){
+      nIntervId = setInterval(getRandomFlags, 3000);
+}
+
+function questionsLoop(){
+    //set some timeout before rendering next question
+    flagPause();
 };
 
 function showPanel(){
@@ -105,17 +120,28 @@ $('#flagContainer').click(function(e){
 
     if(currentAnswer === countryName){
         correctAnswers++;
-        userChoices.push(countryName);
+        userChoices.push(currentAnswer);
         console.log("Your choices so far are..." + userChoices);
         console.log("You are correct!!");
         console.log("Correct Answers " + correctAnswers);
+        randomChoices.push(countryName);
+        console.log("The computer generated choices are..." + countryName);
     } else {
         wrongAnswers++;
         console.log("You've fucked up!!");
         console.log("Wrong answers " + wrongAnswers);
-        userChoices.push(countryName);
+        userChoices.push(currentAnswer);
         console.log("Your choices so far are..." + userChoices);
+        randomChoices.push(countryName);
+        console.log("The computer generated choices are..." + countryName);
     }
+
+    currentQuestion++;
+
+    // Here I will make the panel dissappear and generate only the correct flag for 2 seconds...or 3. (I will compensate with extra time lol)
+    showCorrectFlagInPanel(function(){
+        questionsLoop();
+    });
 });
 
 
