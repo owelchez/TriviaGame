@@ -4,8 +4,9 @@ img
 	margin: 10px;
 	width: 140px;
 	height: 75px;
-	float: left;
+
 }
+
 
 body
 {
@@ -23,6 +24,11 @@ body
 {
 	background-image: url('../images/banner.jpg');
 	background-size: cover;
+}
+
+#flagContainer
+{
+	text-align: center;
 }
 
 #counterBox

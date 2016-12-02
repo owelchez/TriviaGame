@@ -3,7 +3,8 @@
 <head>
 	<title>Flags Around The World</title>
 	<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"> -->
+	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css"">
 	<script src="https://code.jquery.com/jquery-2.2.4.js"></script>
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
@@ -34,20 +35,19 @@
 	<div id="questionContainer">
 		<div class="panel panel-default">
 			<div class="panel-heading">
+				<div id="panelText">
 					<div>
 						<h4>Question # <span id="questionNumber">0</span></h4>
 					</div>
 					<div>
 						<h4>Which of the following flags belong to <span id="countryName"></span></h4>
 					</div>
+				</div>
 			</div>
 				<div class="panel-body">
-					
-					<div class="col-md-2">
 						<div id="flagContainer">
 							<!-- Container for random flags being render with JQuery-->
 						</div>
-					</div>	
 				</div>
 		</div>
 	</div>	
