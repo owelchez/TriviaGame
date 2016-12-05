@@ -84,12 +84,9 @@ function getRandomFlags(){
         activeFlag = flags[Math.floor(Math.random() * (1 + flags.length - 1))];
         renderedFlags.push(activeFlag);
     }
-        $('#flagContainer').empty();
-        $('#questionTitle').empty();
+        
+        $('#questionBody').append('<h4>Which flag belongs to <span id="countryName"></span></h4>');
 
-        /*$('#questionTitle').append('<div><h4>Question # <span id="questionNumber">0</span></h4></div>');
-        $('#questionTitle').append('<div><h4>Question # <span id="questionNumber">0</span></h4></div>');
-        $('#questionBody').append('<h4>Which flag belongs to <span id="countryName"></span></h4>');*/
     console.log(renderedFlags);
     getRandomCountryName();
     renderFlagsArray();
@@ -97,6 +94,8 @@ function getRandomFlags(){
 };
 
 function findDuplicates(){
+    $('#questionBody').empty();
+    $('#questionBody').append('<h4>Which flag belongs to <span id="countryName"></span></h4>');
     var sortedFlags = renderedFlags.slice().sort();
         for (var i = 0; i < renderedFlags.length - 1; i++){
             if (sortedFlags[i + 1] === sortedFlags[i]){
@@ -115,8 +114,6 @@ function getRandomCountryName(){
 function renderFlagsArray(){
         $('#flagContainer').empty();
         $('#questionTitle').empty();
-
-
 
     for(i = 0; i < maxFlags; i++){
         $('#flagContainer').append('<img src="assets/images/' + renderedFlags[i] + '.png" id="' + renderedFlags[i] + '"/>');
@@ -159,20 +156,19 @@ $('#flagContainer').click(function(e){
     // Here I will make the panel dissappear and generate only the correct flag for 2 seconds...or 3. (I will compensate with extra time lol)
     showCorrectFlagInPanel(function(){
         flagPause();
-
     });
 });
 
 function disableClicks(){
-    $('#flagContainer').click(function(){
+    /*$('#flagContainer').click(function(){
         $('#flagContainer').off();
-    })
+    })*/
 };
 
 function enableClicks(){
-    $('#flagContainer').click(function(){
+    /*$('#flagContainer').click(function(){
         $('#flagContainer').on();
-    })
+    })*/
 };
 
     function clock(){
@@ -182,7 +178,6 @@ function enableClicks(){
             $('#start').hide();
             getRandomFlags();
             showPanel();
-            disableClicks();
         });
     };
 
