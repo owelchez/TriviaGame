@@ -7,7 +7,6 @@ var countryName = '';
 var currentQuestion = 1;
 var currentAnswer = '';
 const maxFlags = 4;
-var questionContainer = $('#questionContainer'); // Not sure if this is safe
 
 /*******************************************************/
                  /*User inputs' variables*/
@@ -48,25 +47,27 @@ function startGame(){
 };       
 
 function hidePanel(){
-    questionContainer.hide();
+    $('#questionContainer').hide();
 };
 
 function showCorrectFlagInPanel(callback){
 // Render correct flag here
+    $('#questionTitle').empty();    
     $('#flagContainer').empty();
-    $('#panelText').empty();
-    $('#panelText').append('<h3>The correct flag is ' + countryName + '</h3>');
+    $('#questionBody').empty();
+
+    $('#questionTitle').append('<h3>The correct flag is ' + countryName + '</h3>');
     $('#flagContainer').append('<img src="assets/images/' + countryName + '.png"/>');
 
     callback();
 };
 
 function flagPause(){
-      var timeoutID = window.setTimeout(getRandomFlags, 2000);
+      var timeoutID = window.setTimeout(getRandomFlags, 3000);
 };
 
 function showPanel(){
-    questionContainer.show();
+    $('#questionContainer').show();
 };
 
 function emptyValues(){
@@ -74,7 +75,7 @@ function emptyValues(){
     renderedFlags = [];
 
         $('#flagContainer').empty();
-        $('<h4>').empty();
+        $('#questionTitle').empty();
 };
 
 function getRandomFlags(){
@@ -84,7 +85,11 @@ function getRandomFlags(){
         renderedFlags.push(activeFlag);
     }
         $('#flagContainer').empty();
-        $('#panelText', '<h4>').empty();
+        $('#questionTitle').empty();
+
+        /*$('#questionTitle').append('<div><h4>Question # <span id="questionNumber">0</span></h4></div>');
+        $('#questionTitle').append('<div><h4>Question # <span id="questionNumber">0</span></h4></div>');
+        $('#questionBody').append('<h4>Which flag belongs to <span id="countryName"></span></h4>');*/
     console.log(renderedFlags);
     getRandomCountryName();
     renderFlagsArray();
@@ -109,12 +114,18 @@ function getRandomCountryName(){
 
 function renderFlagsArray(){
         $('#flagContainer').empty();
-        $('#countryName').empty();
+        $('#questionTitle').empty();
+
+
+
     for(i = 0; i < maxFlags; i++){
         $('#flagContainer').append('<img src="assets/images/' + renderedFlags[i] + '.png" id="' + renderedFlags[i] + '"/>');
     }
-        console.log(countryName);
         getRandomCountryName();
+
+        $('#questionTitle').append('<div><h4>Question # <span id="questionNumber">0</span></h4></div>');
+        $('#questionBody').append('<h4>Which flag belongs to <span id="countryName"></span></h4>');
+
         $('#countryName').html(countryName);
         $('#questionNumber').html(currentQuestion);
 };
@@ -148,10 +159,9 @@ $('#flagContainer').click(function(e){
     // Here I will make the panel dissappear and generate only the correct flag for 2 seconds...or 3. (I will compensate with extra time lol)
     showCorrectFlagInPanel(function(){
         flagPause();
+
     });
 });
-
-
 
 function disableClicks(){
     $('#flagContainer').click(function(){
@@ -207,6 +217,3 @@ function enableClicks(){
             return minutes + ":" + seconds;
         }
     };
-
- 
-    
