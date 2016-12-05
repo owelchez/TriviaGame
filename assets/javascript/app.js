@@ -62,25 +62,29 @@ function showCorrectFlagInPanel(callback){
 };
 
 function flagPause(){
-      anyValue = setInterval(getRandomFlags, 2000);
-}
-
-function questionsLoop(){
-    //set some timeout before rendering next question
-    flagPause();
+      var timeoutID = window.setTimeout(getRandomFlags, 2000);
 };
 
 function showPanel(){
     questionContainer.show();
 };
 
+function emptyValues(){
+    countryName = '';
+    renderedFlags = [];
+
+        $('#flagContainer').empty();
+        $('<h4>').empty();
+};
+
 function getRandomFlags(){
+    emptyValues();
     for(i = 0; i < maxFlags; i++){
         activeFlag = flags[Math.floor(Math.random() * (1 + flags.length - 1))];
         renderedFlags.push(activeFlag);
     }
         $('#flagContainer').empty();
-        $('#countryName').empty();
+        $('#panelText', '<h4>').empty();
     console.log(renderedFlags);
     getRandomCountryName();
     renderFlagsArray();
@@ -104,10 +108,13 @@ function getRandomCountryName(){
 };
 
 function renderFlagsArray(){
+        $('#flagContainer').empty();
+        $('#countryName').empty();
     for(i = 0; i < maxFlags; i++){
         $('#flagContainer').append('<img src="assets/images/' + renderedFlags[i] + '.png" id="' + renderedFlags[i] + '"/>');
     }
         console.log(countryName);
+        getRandomCountryName();
         $('#countryName').html(countryName);
         $('#questionNumber').html(currentQuestion);
 };
@@ -140,7 +147,7 @@ $('#flagContainer').click(function(e){
 
     // Here I will make the panel dissappear and generate only the correct flag for 2 seconds...or 3. (I will compensate with extra time lol)
     showCorrectFlagInPanel(function(){
-        questionsLoop();
+        flagPause();
     });
 });
 
@@ -149,6 +156,12 @@ $('#flagContainer').click(function(e){
 function disableClicks(){
     $('#flagContainer').click(function(){
         $('#flagContainer').off();
+    })
+};
+
+function enableClicks(){
+    $('#flagContainer').click(function(){
+        $('#flagContainer').on();
     })
 };
 
