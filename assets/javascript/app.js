@@ -44,6 +44,7 @@ startGame();
 
 function startGame(){
     clock();
+    onClickListener();
 };       
 
 function hidePanel(){
@@ -58,9 +59,9 @@ function showCorrectFlagInPanel(callback){
 
     $('#questionTitle').append('<h3>The correct flag is ' + countryName + '</h3>');
     $('#flagContainer').append('<img src="assets/images/' + countryName + '.png"/>');
-
+ 
     disableClicks();
-
+ 
     callback();
 };
 
@@ -93,7 +94,7 @@ function getRandomFlags(){
     getRandomCountryName();
     renderFlagsArray();
     findDuplicates();
-
+    onClickListener();
 };
 
 function findDuplicates(){
@@ -137,44 +138,46 @@ function renderFlagsArray(){
 
 };
 
+function onClickListener(){
 // Onclick event for flags
-$('#flagContainer').click(function(e){
-    currentAnswer = e.target.id;
-    //console.log("You've clicked on " + e.target.id);
-    console.log(currentAnswer);
+    $('#flagContainer').click(function(e){
+        currentAnswer = e.target.id;
+        //console.log("You've clicked on " + e.target.id);
+        console.log(currentAnswer);
 
-    if(currentAnswer === countryName){
-        correctAnswers++;
-        userChoices.push(currentAnswer);
-        console.log("Your choices so far are..." + userChoices);
-        console.log("You are correct!!");
-        console.log("Correct Answers " + correctAnswers);
-        randomChoices.push(countryName);
-        console.log("The computer generated choices are..." + randomChoices);
-    } else {
-        wrongAnswers++;
-        console.log("You've fucked up!!");
-        console.log("Wrong answers " + wrongAnswers);
-        userChoices.push(currentAnswer);
-        console.log("Your choices so far are..." + userChoices);
-        randomChoices.push(countryName);
-        console.log("The computer generated choices are..." + randomChoices);
-    }
+        if(currentAnswer === countryName){
+            correctAnswers++;
+            userChoices.push(currentAnswer);
+            console.log("Your choices so far are..." + userChoices);
+            console.log("You are correct!!");
+            console.log("Correct Answers " + correctAnswers);
+            randomChoices.push(countryName);
+            console.log("The computer generated choices are..." + randomChoices);
+        } else {
+            wrongAnswers++;
+            console.log("You've fucked up!!");
+            console.log("Wrong answers " + wrongAnswers);
+            userChoices.push(currentAnswer);
+            console.log("Your choices so far are..." + userChoices);
+            randomChoices.push(countryName);
+            console.log("The computer generated choices are..." + randomChoices);
+        }
 
-    currentQuestion++;
+        currentQuestion++;
 
-    // Here I will make the panel dissappear and generate only the correct flag for 2 seconds...or 3. (I will compensate with extra time lol)
-    showCorrectFlagInPanel(function(){
-        flagPause();
+        // Here I will make the panel dissappear and generate only the correct flag for 2 seconds...or 3. (I will compensate with extra time lol)
+        showCorrectFlagInPanel(function(){
+            flagPause();
+        });
     });
-});
+};
 
 function disableClicks(){
-        $('#flagContainer').off();
+        $('#flagContainer, img').off();
 };
 
 function enableClicks(){
-        $('#flagContainer').on();
+        $('#flagContainer, img').on();
 };
 
     function clock(){
