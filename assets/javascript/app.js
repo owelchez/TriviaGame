@@ -44,7 +44,6 @@ startGame();
 
 function startGame(){
     clock();
-    onClickListener();
 };       
 
 function hidePanel(){
@@ -66,7 +65,7 @@ function showCorrectFlagInPanel(callback){
 };
 
 function flagPause(){
-        
+        disableClicks();
         var timeoutID = window.setTimeout(getRandomFlags, 3000);
 };
 
@@ -92,9 +91,7 @@ function getRandomFlags(){
 
     console.log(renderedFlags);
     getRandomCountryName();
-    renderFlagsArray();
     findDuplicates();
-    onClickListener();
 };
 
 function findDuplicates(){
@@ -109,6 +106,7 @@ function findDuplicates(){
                 getRandomFlags();
             }
         }
+        renderFlagsArray();
         getRandomCountryName();
         $('#countryName').html(countryName);
         $('#questionNumber').html(currentQuestion);
@@ -130,15 +128,13 @@ function renderFlagsArray(){
     }
         getRandomCountryName();
 
-        
-
         $('#countryName').html(countryName);
         $('#questionNumber').html(currentQuestion);
 
-
+        enableClicks();
 };
 
-function onClickListener(){
+ 
 // Onclick event for flags
     $('#flagContainer').click(function(e){
         currentAnswer = e.target.id;
@@ -153,7 +149,8 @@ function onClickListener(){
             console.log("Correct Answers " + correctAnswers);
             randomChoices.push(countryName);
             console.log("The computer generated choices are..." + randomChoices);
-        } else {
+        } 
+        else if(currentAnswer !== countryName){
             wrongAnswers++;
             console.log("You've fucked up!!");
             console.log("Wrong answers " + wrongAnswers);
@@ -170,7 +167,7 @@ function onClickListener(){
             flagPause();
         });
     });
-};
+
 
 function disableClicks(){
         $('#flagContainer, img').off();
