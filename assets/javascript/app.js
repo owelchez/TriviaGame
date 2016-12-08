@@ -7,6 +7,8 @@ var countryName = '';
 var currentQuestion = 1;
 var currentAnswer = '';
 const maxFlags = 4;
+var enableOnClicks = '';
+var disableOnClicks = '';
 
 /*******************************************************/
                  /*User inputs' variables*/
@@ -59,13 +61,10 @@ function showCorrectFlagInPanel(callback){
     $('#questionTitle').append('<h3>The correct flag is ' + countryName + '</h3>');
     $('#flagContainer').append('<img src="assets/images/' + countryName + '.png"/>');
  
-    disableClicks();
- 
     callback();
 };
 
 function flagPause(){
-        disableClicks();
         var timeoutID = window.setTimeout(getRandomFlags, 3000);
 };
 
@@ -76,6 +75,7 @@ function showPanel(){
 function emptyValues(){
     countryName = '';
     renderedFlags = [];
+    currentAnswer = '';
 
         $('#flagContainer').empty();
         $('#questionTitle').empty();
@@ -124,20 +124,19 @@ function renderFlagsArray(){
         $('#questionTitle').append('<div><h4>Question # <span id="questionNumber">0</span></h4></div>');
 
     for(i = 0; i < maxFlags; i++){
-        $('#flagContainer').append('<img src="assets/images/' + renderedFlags[i] + '.png" id="' + renderedFlags[i] + '"/>');
+        $('#flagContainer').append('<img src="assets/images/' + renderedFlags[i] + '.png" name="' + renderedFlags[i] + '"/>');
     }
         getRandomCountryName();
 
         $('#countryName').html(countryName);
         $('#questionNumber').html(currentQuestion);
+        console.log(currentAnswer);
 
-        enableClicks();
 };
-
  
 // Onclick event for flags
     $('#flagContainer').click(function(e){
-        currentAnswer = e.target.id;
+        currentAnswer = e.target.name;
         //console.log("You've clicked on " + e.target.id);
         console.log(currentAnswer);
 
@@ -167,15 +166,6 @@ function renderFlagsArray(){
             flagPause();
         });
     });
-
-
-function disableClicks(){
-        $('#flagContainer, img').off();
-};
-
-function enableClicks(){
-        $('#flagContainer, img').on();
-};
 
     function clock(){
         hidePanel();
