@@ -7,8 +7,6 @@ var countryName = '';
 var currentQuestion = 1;
 var currentAnswer = '';
 const maxFlags = 4;
-var enableOnClicks = '';
-var disableOnClicks = '';
 
 /*******************************************************/
                  /*User inputs' variables*/
@@ -62,6 +60,8 @@ function showCorrectFlagInPanel(callback){
     $('#flagContainer').append('<img src="assets/images/' + countryName + '.png"/>');
  
     callback();
+
+    $('#flagContainer, #flagClicks').off('click');
 };
 
 function flagPause(){
@@ -106,7 +106,9 @@ function findDuplicates(){
                 getRandomFlags();
             }
         }
-        renderFlagsArray();
+        renderFlagsArray(function(){
+            enableOnClicks();
+        });
         getRandomCountryName();
         $('#countryName').html(countryName);
         $('#questionNumber').html(currentQuestion);
@@ -117,22 +119,28 @@ function getRandomCountryName(){
     countryName = renderedFlags[Math.floor(Math.random() * (1 + renderedFlags.length - 1))];
 };
 
-function renderFlagsArray(){
+function renderFlagsArray(callback){
         $('#flagContainer').empty();
         $('#questionTitle').empty();
 
         $('#questionTitle').append('<div><h4>Question # <span id="questionNumber">0</span></h4></div>');
 
     for(i = 0; i < maxFlags; i++){
-        $('#flagContainer').append('<img src="assets/images/' + renderedFlags[i] + '.png" name="' + renderedFlags[i] + '"/>');
+        $('#flagContainer').append('<img src="assets/images/' + renderedFlags[i] + '.png" id="flagClicks" name="' + renderedFlags[i] + '"/>');
     }
         getRandomCountryName();
 
         $('#countryName').html(countryName);
         $('#questionNumber').html(currentQuestion);
         console.log(currentAnswer);
+        //$('#flagContainer, #flagClicks').on('click');
 
+        callback();
 };
+
+function enableOnClicks(){
+    $('#flagContainer, #flagClicks').on('click');
+}
  
 // Onclick event for flags
     $('#flagContainer').click(function(e){
