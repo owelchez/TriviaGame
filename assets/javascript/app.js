@@ -50,7 +50,7 @@ function hidePanel(){
     $('#questionContainer').hide();
 };
 
-function showCorrectFlagInPanel(callback){
+function showCorrectFlagInPanel(){
 // Render correct flag here
     $('#questionTitle').empty();    
     $('#flagContainer').empty();
@@ -59,14 +59,13 @@ function showCorrectFlagInPanel(callback){
     $('#questionTitle').append('<h3>The correct flag is ' + countryName + '</h3>');
     $('#flagContainer').append('<img src="assets/images/' + countryName + '.png"/>');
  
-    callback();
 
-    $('#flagContainer, #flagClicks').off('click');
+    //$('#flagContainer, #flagClicks').off('click');
 };
 
-function flagPause(){
+/*function flagPause(){
         var timeoutID = window.setTimeout(getRandomFlags, 3000);
-};
+};*/
 
 function showPanel(){
     $('#questionContainer').show();
@@ -106,9 +105,7 @@ function findDuplicates(){
                 getRandomFlags();
             }
         }
-        renderFlagsArray(function(){
-            enableOnClicks();
-        });
+        renderFlagsArray();
         getRandomCountryName();
         $('#countryName').html(countryName);
         $('#questionNumber').html(currentQuestion);
@@ -119,7 +116,7 @@ function getRandomCountryName(){
     countryName = renderedFlags[Math.floor(Math.random() * (1 + renderedFlags.length - 1))];
 };
 
-function renderFlagsArray(callback){
+function renderFlagsArray(){
         $('#flagContainer').empty();
         $('#questionTitle').empty();
 
@@ -135,12 +132,7 @@ function renderFlagsArray(callback){
         console.log(currentAnswer);
         //$('#flagContainer, #flagClicks').on('click');
 
-        callback();
 };
-
-function enableOnClicks(){
-    $('#flagContainer, #flagClicks').on('click');
-}
  
 // Onclick event for flags
     $('#flagContainer').click(function(e){
@@ -170,9 +162,7 @@ function enableOnClicks(){
         currentQuestion++;
 
         // Here I will make the panel dissappear and generate only the correct flag for 2 seconds...or 3. (I will compensate with extra time lol)
-        showCorrectFlagInPanel(function(){
-            flagPause();
-        });
+        //showCorrectFlagInPanel();
     });
 
     function clock(){
