@@ -1,4 +1,4 @@
-const totalQuestions = 20;
+const totalQuestions = 10;
 var minutes = 0;
 var seconds = 0;
 var stopTime = 0;
@@ -52,20 +52,25 @@ function hidePanel(){
 
 function showCorrectFlagInPanel(){
 // Render correct flag here
-    $('#questionTitle').empty();    
+    $('#questionTitle').hide();    
     $('#flagContainer').empty();
-    $('#questionBody').empty();
+    //$('#questionBody').hide();
 
-    $('#questionTitle').append('<h3>The correct flag is ' + countryName + '</h3>');
-    $('#flagContainer').append('<img src="assets/images/' + countryName + '.png"/>');
- 
+    $('#questionTitle').html('<h3>The correct flag is ' + countryName + '</h3>');
+    $('#flagContainer').html('<img src="assets/images/' + countryName + '.png"/>');
 
-    //$('#flagContainer, #flagClicks').off('click');
+    $('#questionTitle').show();    
+    $('#flagContainer').show();
+    //$('#questionBody').show();
+
+
+    flagPause();
+
 };
 
-/*function flagPause(){
+function flagPause(){
         var timeoutID = window.setTimeout(getRandomFlags, 3000);
-};*/
+};
 
 function showPanel(){
     $('#questionContainer').show();
@@ -75,14 +80,13 @@ function emptyValues(){
     countryName = '';
     renderedFlags = [];
     currentAnswer = '';
-
-        $('#flagContainer').empty();
-        $('#questionTitle').empty();
 };
 
 function getRandomFlags(){
     emptyValues();
-    $('#questionBody').empty();
+        $('#flagContainer').empty();
+        $('#questionBody').hide();
+    $('#questionBody').html('<h4>Which flag belongs to <span id="countryName"></span></h4>');
     for(i = 0; i < maxFlags; i++){
         activeFlag = flags[Math.floor(Math.random() * (1 + flags.length - 1))];
         renderedFlags.push(activeFlag);
@@ -94,11 +98,12 @@ function getRandomFlags(){
 };
 
 function findDuplicates(){
-    $('#questionBody').empty();
-    $('#questionBody').append('<h4>Which flag belongs to <span id="countryName"></span></h4>');
+    $('#questionBody').hide();
+    
     var sortedFlags = renderedFlags.slice().sort();
         for (var i = 0; i < renderedFlags.length - 1; i++){
             if (sortedFlags[i + 1] === sortedFlags[i]){
+                $('#flagContainer').empty();
                 console.log('We have a duplicate! Randomizing again!');
                 renderedFlags = [];
                 countryName = '';
@@ -109,6 +114,7 @@ function findDuplicates(){
         getRandomCountryName();
         $('#countryName').html(countryName);
         $('#questionNumber').html(currentQuestion);
+        $('#questionBody').show();
 
 };
 
@@ -117,10 +123,10 @@ function getRandomCountryName(){
 };
 
 function renderFlagsArray(){
-        $('#flagContainer').empty();
-        $('#questionTitle').empty();
+        $('#flagContainer').hide();
+        $('#questionTitle').hide();
 
-        $('#questionTitle').append('<div><h4>Question # <span id="questionNumber">0</span></h4></div>');
+        $('#questionTitle').html('<div><h4>Question # <span id="questionNumber">0</span></h4></div>');
 
     for(i = 0; i < maxFlags; i++){
         $('#flagContainer').append('<img src="assets/images/' + renderedFlags[i] + '.png" id="flagClicks" name="' + renderedFlags[i] + '"/>');
@@ -130,12 +136,16 @@ function renderFlagsArray(){
         $('#countryName').html(countryName);
         $('#questionNumber').html(currentQuestion);
         console.log(currentAnswer);
-        //$('#flagContainer, #flagClicks').on('click');
 
+        $('#flagContainer').show();
+        $('#questionTitle').show();
+
+        clickNload();
 };
  
+ function clickNload(){
 // Onclick event for flags
-    $('#flagContainer').click(function(e){
+    $('#flagContainer').one('click', (function(e){
         currentAnswer = e.target.name;
         //console.log("You've clicked on " + e.target.id);
         console.log(currentAnswer);
@@ -162,8 +172,11 @@ function renderFlagsArray(){
         currentQuestion++;
 
         // Here I will make the panel dissappear and generate only the correct flag for 2 seconds...or 3. (I will compensate with extra time lol)
-        //showCorrectFlagInPanel();
-    });
+
+
+        showCorrectFlagInPanel();
+    }));
+}
 
     function clock(){
         hidePanel();
