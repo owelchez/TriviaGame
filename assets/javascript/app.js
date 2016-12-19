@@ -40,6 +40,13 @@ var flags = [  "Honduras", "Japan", "Jamaica",
                 "USA"
             ];
 
+function loadQuestions(){
+    var newQuestionsSet = [];
+    for(i = 0; i < totalQuestions; i++){
+        activeFlag = flags[Math.floor(Math.random() * (1 + flags.length - 1))];
+    }
+}
+
 startGame();
 
 function startGame(){
@@ -183,8 +190,6 @@ function renderFlagsArray(){
     	$('#start').on('click', function(){
             stopwatch.start();
             $('#start').hide();
-            getRandomFlags();
-            showPanel();
         });
     };
 
