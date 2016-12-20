@@ -40,17 +40,28 @@ var flags = [  "Honduras", "Japan", "Jamaica",
                 "USA"
             ];
 
+            startGame();
+
 function loadQuestions(){
     var newQuestionsSet = [];
-    for(i = 0; i < totalQuestions; i++){
-        activeFlag = flags[Math.floor(Math.random() * (1 + flags.length - 1))];
+    var finalSet = [];
+    for(groups = 0; groups < totalQuestions; groups++){
+        for(i = 0; i < maxFlags; i++){
+            activeFlag = flags[Math.floor(Math.random() * (1 + flags.length - 1))];
+            newQuestionsSet.push(activeFlag);
+        }
+        findDuplicates(newQuestionsSet);
+        finalSet.push(newQuestionsSet);
+        newQuestionsSet = [];
     }
-}
 
-startGame();
+    return finalSet;
+}
 
 function startGame(){
     clock();
+    var questionsArray = loadQuestions();
+    console.log(questionsArray);
 }       
 
 function hidePanel(){
@@ -109,22 +120,15 @@ function getRandomFlags(){
     });
 }
 
-function findDuplicates(callback){
-    var sortedFlags = renderedFlags.slice().sort();
-        for (var i = 0; i < renderedFlags.length - 1; i++){
+function findDuplicates(arrg){
+    var sortedFlags = arrg.slice().sort();
+        for (var i = 0; i < arrg.length - 1; i++){
             if(sortedFlags[i + 1] === sortedFlags[i]){
-                $('#flagContainer').empty();
-                console.log('We have a duplicate! Randomizing again!');
-                getRandomFlags();
+                //console.log('Duplicate found!!');
+                //startGame();
+                return true;
             }
         }
-        callback();
-        getRandomCountryName();
-        $('#countryName').html(countryName);
-        $('#questionNumber').html(currentQuestion);
-        $('#questionBody').show();
-
-
 }
 
 function getRandomCountryName(){
