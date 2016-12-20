@@ -46,13 +46,19 @@ function loadQuestions(){
     var newQuestionsSet = [];
     var finalSet = [];
     for(groups = 0; groups < totalQuestions; groups++){
+        var didFindDuplicates = false;
         for(i = 0; i < maxFlags; i++){
             activeFlag = flags[Math.floor(Math.random() * (1 + flags.length - 1))];
             newQuestionsSet.push(activeFlag);
         }
-        findDuplicates(newQuestionsSet);
-        finalSet.push(newQuestionsSet);
-        newQuestionsSet = [];
+        didFindDuplicates = findDuplicates(newQuestionsSet);
+            if(didFindDuplicates === true){
+                finalSet.pop();
+                groups--;
+                didFindDuplicates = false;
+            } 
+                finalSet.push(newQuestionsSet);
+                newQuestionsSet = [];
     }
 
     return finalSet;
@@ -62,7 +68,17 @@ function startGame(){
     clock();
     var questionsArray = loadQuestions();
     console.log(questionsArray);
-}       
+}     
+
+function findDuplicates(arrg){
+    var sortedFlags = arrg.slice().sort();
+        for (i = 0; i < arrg.length - 1; i++){
+            if(sortedFlags[i + 1] === sortedFlags[i]){
+                console.log('Duplicate found!!');
+                return true;
+            }
+        }
+}  
 
 function hidePanel(){
     $('#questionContainer').hide();
@@ -118,17 +134,6 @@ function getRandomFlags(){
     findDuplicates(function(){
         renderFlagsArray();
     });
-}
-
-function findDuplicates(arrg){
-    var sortedFlags = arrg.slice().sort();
-        for (var i = 0; i < arrg.length - 1; i++){
-            if(sortedFlags[i + 1] === sortedFlags[i]){
-                //console.log('Duplicate found!!');
-                //startGame();
-                return true;
-            }
-        }
 }
 
 function getRandomCountryName(){
