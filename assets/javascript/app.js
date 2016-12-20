@@ -40,58 +40,73 @@ var flags = [  "Honduras", "Japan", "Jamaica",
                 "USA"
             ];
 
+            startGame();
+
 function loadQuestions(){
     var newQuestionsSet = [];
-    for(i = 0; i < totalQuestions; i++){
-        activeFlag = flags[Math.floor(Math.random() * (1 + flags.length - 1))];
+    var finalSet = [];
+    for(groups = 0; groups < totalQuestions; groups++){
+        for(i = 0; i < maxFlags; i++){
+            activeFlag = flags[Math.floor(Math.random() * (1 + flags.length - 1))];
+            newQuestionsSet.push(activeFlag);
+        }
+        findDuplicates(newQuestionsSet);
+        finalSet.push(newQuestionsSet);
+        newQuestionsSet = [];
     }
-}
 
-startGame();
+    return finalSet;
+}
 
 function startGame(){
     clock();
-};       
+    var questionsArray = loadQuestions();
+    console.log(questionsArray);
+}       
 
 function hidePanel(){
     $('#questionContainer').hide();
-};
+}
 
 function showCorrectFlagInPanel(){
 // Render correct flag here
     $('#questionTitle').hide();    
     $('#flagContainer').empty();
-    //$('#questionBody').hide();
+    $('#questionBody').hide();
 
     $('#questionTitle').html('<h3>The correct flag is ' + countryName + '</h3>');
     $('#flagContainer').html('<img src="assets/images/' + countryName + '.png"/>');
 
     $('#questionTitle').show();    
     $('#flagContainer').show();
-    //$('#questionBody').show();
-
 
     flagPause();
-
-};
+}
 
 function flagPause(){
         var timeoutID = window.setTimeout(getRandomFlags, 3000);
-};
+}
 
 function showPanel(){
     $('#questionContainer').show();
-};
+}
 
 function emptyValues(){
     countryName = '';
     renderedFlags = [];
     currentAnswer = '';
-};
+}
+
+function emptyContainers(){
+    $('#flagContainer').empty();
+    $('#questionTitle').empty();
+    $('#questionBody').empty();
+}
 
 function getRandomFlags(){
     emptyValues();
-        $('#flagContainer').empty();
+    emptyContainers();
+        $('#flagContainer').hide();
         $('#questionBody').hide();
     $('#questionBody').html('<h4>Which flag belongs to <span id="countryName"></span></h4>');
     for(i = 0; i < maxFlags; i++){
@@ -100,36 +115,28 @@ function getRandomFlags(){
     }
 
     console.log(renderedFlags);
-    getRandomCountryName();
-    findDuplicates();
-};
+    findDuplicates(function(){
+        renderFlagsArray();
+    });
+}
 
-function findDuplicates(){
-    $('#questionBody').hide();
-    
-    var sortedFlags = renderedFlags.slice().sort();
-        for (var i = 0; i < renderedFlags.length - 1; i++){
-            if (sortedFlags[i + 1] === sortedFlags[i]){
-                $('#flagContainer').empty();
-                console.log('We have a duplicate! Randomizing again!');
-                renderedFlags = [];
-                countryName = '';
-                getRandomFlags();
+function findDuplicates(arrg){
+    var sortedFlags = arrg.slice().sort();
+        for (var i = 0; i < arrg.length - 1; i++){
+            if(sortedFlags[i + 1] === sortedFlags[i]){
+                //console.log('Duplicate found!!');
+                //startGame();
+                return true;
             }
         }
-        renderFlagsArray();
-        getRandomCountryName();
-        $('#countryName').html(countryName);
-        $('#questionNumber').html(currentQuestion);
-        $('#questionBody').show();
-
-};
+}
 
 function getRandomCountryName(){
     countryName = renderedFlags[Math.floor(Math.random() * (1 + renderedFlags.length - 1))];
-};
+}
 
 function renderFlagsArray(){
+        $('#flagContainer').empty();
         $('#flagContainer').hide();
         $('#questionTitle').hide();
 
@@ -147,8 +154,7 @@ function renderFlagsArray(){
         $('#flagContainer').show();
         $('#questionTitle').show();
 
-        clickNload();
-};
+}
  
  function clickNload(){
 // Onclick event for flags
@@ -177,6 +183,9 @@ function renderFlagsArray(){
         }
 
         currentQuestion++;
+
+        console.log('You have answered correct ' + correctAnswers);
+        console.log('You have answered wrong ' + wrongAnswers);
 
         // Here I will make the panel dissappear and generate only the correct flag for 2 seconds...or 3. (I will compensate with extra time lol)
 
@@ -223,4 +232,4 @@ function renderFlagsArray(){
             }
             return minutes + ":" + seconds;
         }
-    };
+    }
