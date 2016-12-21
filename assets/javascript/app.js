@@ -29,54 +29,72 @@ var flags = [  "Honduras", "Japan", "Jamaica",
                 "Egypt", "El Salvador", "Estonia",
                 "France", "Greece", "Guatemala",
                 "India", "Ireland", "Israel",
-                "Italy", "Jamaica", "Kenya",
+                "Italy", "Kenya", "Uruguay",
                 "Laos", "Madagascar", "Mexico",
                 "Mongolia", "Netherlands", "Nicaragua",
-                "Panama", "Peru", "Philippines",
+                "Peru", "Philippines",
                 "Poland", "Portugal", "Saudi Arabia",
                 "Slovakia", "South Africa", "South Korea",
                 "Spain", "Sweden", "Switzerland",
-                "Thailand", "Turkey", "Uruguay",
-                "USA"
+                "Thailand", "Turkey"
             ];
 
-            startGame();
+startGame();
+             
+
+// This function is working perfectly
+function getFlagSet(){
+    var newQuestionsSet = [];
+    var duplicatesFound = false;
+    for(i = 0; i < maxFlags; i++){
+        activeFlag = flags[Math.floor(Math.random() * (1 + flags.length - 1))];
+        newQuestionsSet.push(activeFlag);
+        console.log(newQuestionsSet);
+    }
+    duplicatesFound = findDuplicates(newQuestionsSet);
+    console.log(duplicatesFound);
+    if(duplicatesFound === true){
+        getFlagSet();
+    } else {
+        return newQuestionsSet;
+      }
+}
 
 function loadQuestions(){
     var newQuestionsSet = [];
     var finalSet = [];
+    var duplicatesFound = false;
     for(groups = 0; groups < totalQuestions; groups++){
-        var didFindDuplicates = false;
-        for(i = 0; i < maxFlags; i++){
-            activeFlag = flags[Math.floor(Math.random() * (1 + flags.length - 1))];
-            newQuestionsSet.push(activeFlag);
-        }
-        didFindDuplicates = findDuplicates(newQuestionsSet);
-            if(didFindDuplicates === true){
-                finalSet.pop();
-                groups--;
-                didFindDuplicates = false;
-            } 
-                finalSet.push(newQuestionsSet);
-                newQuestionsSet = [];
-    }
-
+         finalSet.push(getFlagSet());
+         debugger;
+    } // Parent loop ends here
+    console.log(finalSet);
     return finalSet;
+
+}
+
+function checkUndefined(arrg){
+    for(i = 0; i < arrg.length; i++){
+        if(arrg[i] === undefined){
+            arrg.splice(i , 1);
+        }
+    }
 }
 
 function startGame(){
     clock();
-    var questionsArray = loadQuestions();
-    console.log(questionsArray);
+    loadQuestions();
 }     
 
+// This is working
 function findDuplicates(arrg){
-    var sortedFlags = arrg.slice().sort();
+    var sortedFlags = arrg.sort();
+    console.log('This is in findDuplicates ' + sortedFlags);
         for (i = 0; i < arrg.length - 1; i++){
-            if(sortedFlags[i + 1] === sortedFlags[i]){
+            if(sortedFlags[i] === sortedFlags[i + 1]){
                 console.log('Duplicate found!!');
                 return true;
-            }
+            } 
         }
 }  
 
