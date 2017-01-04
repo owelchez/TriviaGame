@@ -28,7 +28,7 @@ var flags = [  "Honduras", "Japan", "Jamaica",
                 "Brazil", "Bulgaria", "Canada",
                 "Chile", "China", "Colombia",
                 "Cuba", "Dominican Republic", "Ecuador",
-                "Egypt", "El Salvador", "Estonia",
+                "Egypt", "El Salvador", "Estonia"/*,
                 "France", "Greece", "Guatemala",
                 "India", "Ireland", "Israel",
                 "Italy", "Kenya", "Uruguay",
@@ -38,11 +38,10 @@ var flags = [  "Honduras", "Japan", "Jamaica",
                 "Poland", "Portugal", "Saudi Arabia",
                 "Slovakia", "South Africa", "South Korea",
                 "Spain", "Sweden", "Switzerland",
-                "Thailand", "Turkey"
+                "Thailand", "Turkey"*/
             ];
 
 startGame();
-             
 
 // This function is working perfectly
 function getFlagSet(){
@@ -51,26 +50,18 @@ function getFlagSet(){
         for(i = 0; i < maxFlags; i++){
             activeFlag = flags[Math.floor(Math.random() * (1 + flags.length - 1))];
             newQuestionsSet.push(activeFlag);
-            console.log('This is newQuestionsSet ' + newQuestionsSet);
+            //console.log('This is newQuestionsSet ' + newQuestionsSet);
         }
 }
 
 function mySort(array){
     var sortedArray = array.slice().sort();
-        for(x = 0; x < sortedArray.length - 1; x++){
-            if(array[x+1].length === array[x].length){
-                for(i = 0; i < array[x].length - 1; i++){
-                    if(array[i] === array[i]){
-                        // Do nothing, just continue iterating
-                    } else {
-                        return false;
-                    }
-                }
-            } else {
-                return false;
+    //console.log(sortedArray);
+            if(sortedArray[1].length === sortedArray[0].length || 
+                sortedArray[2].length === sortedArray[1].length || 
+                sortedArray[3].length === sortedArray[2].length){
+                return true;
             }
-            return true;
-        }
 }
 
 
@@ -80,7 +71,7 @@ function loadQuestions(){
         // if not undefined or duplicated, push to array
         getFlagSet();
         duplicatedValue = mySort(newQuestionsSet);
-        console.log(duplicatedValue);
+        //console.log(duplicatedValue);
         while(duplicatedValue === true){
             newQuestionsSet = [];
             getFlagSet();
@@ -90,6 +81,7 @@ function loadQuestions(){
         finalSet.push(newQuestionsSet);
 
     } // Parent loop ends here
+    console.log(finalSet[0].indexOf(2));
 }
 
 function startGame(){
@@ -98,21 +90,7 @@ function startGame(){
     console.log(finalSet);
     // clock() should be at the end, once all the logic is loaded.
     clock();
-}  
-
-// This is working
-/*function mySort(arrg){
-    var sortedFlags = arrg.sort();
-    console.log('This is in mySort ' + sortedFlags);
-        for (i = 0; i <= arrg.length - 1; i++){
-            if(sortedFlags[i+1] == sortedFlags[i]){
-                console.log('Duplicate found!!');
-                return true;
-            } else {
-                return false;
-            }
-        }
-}  */
+} 
 
 function hidePanel(){
     $('#questionContainer').hide();
@@ -175,14 +153,17 @@ function getRandomCountryName(){
 }
 
 function renderFlagsArray(){
+    const maxFlags = 4;
         $('#flagContainer').empty();
         $('#flagContainer').hide();
         $('#questionTitle').hide();
 
         $('#questionTitle').html('<div><h4>Question # <span id="questionNumber">0</span></h4></div>');
 
+        var indexFinalSet = 0;
     for(i = 0; i < maxFlags; i++){
-        $('#flagContainer').append('<img src="assets/images/' + renderedFlags[i] + '.png" id="flagClicks" name="' + renderedFlags[i] + '"/>');
+        $('#flagContainer').append('<img src="assets/images/' + finalSet[i].indexOf(indexFinalSet) + '.png" id="flagClicks" name="' + finalSet[i].indexOf(indexFinalSet) + '"/>');
+        indexFinalSet++;
     }
         getRandomCountryName();
 
