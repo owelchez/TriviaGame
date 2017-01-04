@@ -52,21 +52,39 @@ function getFlagSet(){
             activeFlag = flags[Math.floor(Math.random() * (1 + flags.length - 1))];
             newQuestionsSet.push(activeFlag);
             console.log('This is newQuestionsSet ' + newQuestionsSet);
-            //debugger;
         }
 }
+
+function mySort(array){
+    var sortedArray = array.slice().sort();
+        for(x = 0; x < sortedArray.length - 1; x++){
+            if(array[x+1].length === array[x].length){
+                for(i = 0; i < array[x].length - 1; i++){
+                    if(array[i] === array[i]){
+                        // Do nothing, just continue iterating
+                    } else {
+                        return false;
+                    }
+                }
+            } else {
+                return false;
+            }
+            return true;
+        }
+}
+
 
 function loadQuestions(){
     for(groups = 0; groups < totalQuestions; groups++){
         duplicatedValue = false;
         // if not undefined or duplicated, push to array
         getFlagSet();
-        duplicatedValue = findDuplicates(newQuestionsSet);
+        duplicatedValue = mySort(newQuestionsSet);
         console.log(duplicatedValue);
         while(duplicatedValue === true){
             newQuestionsSet = [];
             getFlagSet();
-            duplicatedValue = findDuplicates(newQuestionsSet);
+            duplicatedValue = mySort(newQuestionsSet);
         }
 
         finalSet.push(newQuestionsSet);
@@ -83,18 +101,18 @@ function startGame(){
 }  
 
 // This is working
-function findDuplicates(arrg){
-    var sortedFlags = arrg.slice().sort();
-    console.log('This is in findDuplicates ' + sortedFlags);
+/*function mySort(arrg){
+    var sortedFlags = arrg.sort();
+    console.log('This is in mySort ' + sortedFlags);
         for (i = 0; i <= arrg.length - 1; i++){
-            if(sortedFlags[i+1] === sortedFlags[i]){
+            if(sortedFlags[i+1] == sortedFlags[i]){
                 console.log('Duplicate found!!');
                 return true;
             } else {
                 return false;
             }
         }
-}  
+}  */
 
 function hidePanel(){
     $('#questionContainer').hide();
@@ -147,7 +165,7 @@ function getRandomFlags(){
     }
 
     console.log(renderedFlags);
-    findDuplicates(function(){
+    mySort(function(){
         renderFlagsArray();
     });
 }
