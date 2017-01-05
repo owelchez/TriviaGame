@@ -28,7 +28,7 @@ var flags = [  "Honduras", "Japan", "Jamaica",
                 "Brazil", "Bulgaria", "Canada",
                 "Chile", "China", "Colombia",
                 "Cuba", "Dominican Republic", "Ecuador",
-                "Egypt", "El Salvador", "Estonia"/*,
+                "Egypt", "El Salvador", "Estonia",
                 "France", "Greece", "Guatemala",
                 "India", "Ireland", "Israel",
                 "Italy", "Kenya", "Uruguay",
@@ -38,10 +38,11 @@ var flags = [  "Honduras", "Japan", "Jamaica",
                 "Poland", "Portugal", "Saudi Arabia",
                 "Slovakia", "South Africa", "South Korea",
                 "Spain", "Sweden", "Switzerland",
-                "Thailand", "Turkey"*/
+                "Thailand", "Turkey"
             ];
 
 startGame();
+renderFlagsArray();
 
 // This function is working perfectly
 function getFlagSet(){
@@ -81,13 +82,17 @@ function loadQuestions(){
         finalSet.push(newQuestionsSet);
 
     } // Parent loop ends here
-    console.log(finalSet[0].indexOf(2));
+
+    finalSet.forEach(function(element, index){
+        console.log(element + ' ' + index);
+    })
+
 }
 
 function startGame(){
     
     loadQuestions();
-    console.log(finalSet);
+    //console.log(finalSet);
     // clock() should be at the end, once all the logic is loaded.
     clock();
 } 
@@ -153,27 +158,33 @@ function getRandomCountryName(){
 }
 
 function renderFlagsArray(){
-    const maxFlags = 4;
-        $('#flagContainer').empty();
-        $('#flagContainer').hide();
-        $('#questionTitle').hide();
+    var panelContainer = $('<div id="questionContainer"><div class="panel panel-default">' + 
+        '<div class="panel-heading"><div id="panelText"><div id="questionTitle">' + 
+        '<h4>Question # <span id="questionNumber">0</span></h4></div><div id="questionBody">' + 
+        '</div></div></div><div class="panel-body"><div id="flagContainer"></div></div></div></div>')
 
-        $('#questionTitle').html('<div><h4>Question # <span id="questionNumber">0</span></h4></div>');
+        
+    /*for(i = 0; i < totalQuestions; i++){
+        var questionTitle = $('#questionTitle').html('<div><h4>Question # <span id="questionNumber">0</span></h4></div>');
+        $('#questionContainer').append(questionTitle);
+        $('#questionNumber').html(currentQuestion);
+        finalSet[i].forEach(function(element, index){
+            for(x = 0; x < index.length; x++){
+                $('#flagContainer').append('<img src="assets/images/' + index + '.png" id="flagClicks" name="' + index + '"/>');
+            }
+        });
 
-        var indexFinalSet = 0;
-    for(i = 0; i < maxFlags; i++){
-        $('#flagContainer').append('<img src="assets/images/' + finalSet[i].indexOf(indexFinalSet) + '.png" id="flagClicks" name="' + finalSet[i].indexOf(indexFinalSet) + '"/>');
-        indexFinalSet++;
-    }
-        getRandomCountryName();
+        currentQuestion++;
+        
+    }*/
+        /*getRandomCountryName();
 
         $('#countryName').html(countryName);
-        $('#questionNumber').html(currentQuestion);
+        
         console.log(currentAnswer);
 
-        $('#flagContainer').show();
-        $('#questionTitle').show();
-
+        
+        $('#questionTitle').show();*/
 }
  
  function clickNload(){
@@ -215,7 +226,7 @@ function renderFlagsArray(){
 }
 
     function clock(){
-        hidePanel();
+        //hidePanel();
     	$('#start').on('click', function(){
             stopwatch.start();
             $('#start').hide();
