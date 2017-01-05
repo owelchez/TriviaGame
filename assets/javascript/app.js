@@ -117,7 +117,7 @@ function showCorrectFlagInPanel(){
 }
 
 function flagPause(){
-        var timeoutID = window.setTimeout(getRandomFlags, 3000);
+        var timeoutID = window.setTimeout(renderFlagsArray, 3000);
 }
 
 function showPanel(){
@@ -136,12 +136,7 @@ function emptyContainers(){
     $('#questionBody').empty();
 }
 
-function getRandomFlags(){
-    emptyValues();
-    emptyContainers();
-        $('#flagContainer').hide();
-        $('#questionBody').hide();
-    $('#questionBody').html('<h4>Which flag belongs to <span id="countryName"></span></h4>');
+/*function getRandomFlags(){
     for(i = 0; i < maxFlags; i++){
         activeFlag = flags[Math.floor(Math.random() * (1 + flags.length - 1))];
         renderedFlags.push(activeFlag);
@@ -151,40 +146,34 @@ function getRandomFlags(){
     mySort(function(){
         renderFlagsArray();
     });
-}
+}*/
 
 function getRandomCountryName(){
-    countryName = renderedFlags[Math.floor(Math.random() * (1 + renderedFlags.length - 1))];
+    countryName = finalSet[currentQuestion-1][Math.floor(Math.random() * (1 + finalSet[currentQuestion-1].length - 1))];
+    return countryName;
+}
+
+function getQuestion(){
+    $('#questionNumber').html(currentQuestion);
+    $('#countryName').html(getRandomCountryName());
+    newFlagArray = finalSet[currentQuestion-1];
+    console.log(newFlagArray);
+    for(i = 0; i < newFlagArray.length; i++){
+        $('#flagContainer').append('<img src="assets/images/' + newFlagArray[i] + '.png"/>');
+    }
 }
 
 function renderFlagsArray(){
-    var panelContainer = $('<div id="questionContainer"><div class="panel panel-default">' + 
+    var panelContainer = $('<div class="panel panel-default">' + 
         '<div class="panel-heading"><div id="panelText"><div id="questionTitle">' + 
-        '<h4>Question # <span id="questionNumber">0</span></h4></div><div id="questionBody">' + 
-        '</div></div></div><div class="panel-body"><div id="flagContainer"></div></div></div></div>')
+        '<h4>Question # <span id="questionNumber">0</span></h4>' + 
+        '<h4>Which flag belongs to <span id="countryName"></span></h4></div><div id="questionBody">' + 
+        '</div></div></div><div class="panel-body"><div id="flagContainer"></div></div></div>');
 
-        
-    /*for(i = 0; i < totalQuestions; i++){
-        var questionTitle = $('#questionTitle').html('<div><h4>Question # <span id="questionNumber">0</span></h4></div>');
-        $('#questionContainer').append(questionTitle);
-        $('#questionNumber').html(currentQuestion);
-        finalSet[i].forEach(function(element, index){
-            for(x = 0; x < index.length; x++){
-                $('#flagContainer').append('<img src="assets/images/' + index + '.png" id="flagClicks" name="' + index + '"/>');
-            }
-        });
+    $('#questionContainer').append(panelContainer);
+    getQuestion();
 
-        currentQuestion++;
-        
-    }*/
-        /*getRandomCountryName();
 
-        $('#countryName').html(countryName);
-        
-        console.log(currentAnswer);
-
-        
-        $('#questionTitle').show();*/
 }
  
  function clickNload(){
