@@ -38,6 +38,11 @@ body
 	float: right;
 }
 
+#answerContainer
+{
+	text-align: center;
+}
+
 #intro
 {
 	text-align: center;

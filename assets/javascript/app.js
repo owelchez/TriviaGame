@@ -41,8 +41,18 @@ var flags = [  "Honduras", "Japan", "Jamaica",
                 "Thailand", "Turkey"
             ];
 
+var panelContainer = $('<div class="panel panel-default">' + 
+        '<div class="panel-heading"><div id="panelText"><div id="questionTitle">' + 
+        '<h4>Question # <span id="questionNumber">0</span></h4>' + 
+        '<h4>Which flag belongs to <span id="countryName"></span></h4></div><div id="questionBody">' + 
+        '</div></div></div><div class="panel-body"><div id="flagContainer"></div></div></div>');
+
+var panelAnswer = $('<div class="panel panel-default">' + 
+        '<div class="panel-heading"><div id="panelText"><div id="answerTitle">' + 
+        '<h4></h4><h4></h4></div><div id="answerBody">' + 
+        '</div></div></div><div class="panel-body"><div id="answerContainer"></div></div></div>');
+
 startGame();
-renderFlagsArray();
 
 // This function is working perfectly
 function getFlagSet(){
@@ -55,7 +65,7 @@ function getFlagSet(){
         }
 }
 
-function mySort(array){
+function stopDuplicateFlag(array){
     var sortedArray = array.slice().sort();
     //console.log(sortedArray);
             if(sortedArray[1].length === sortedArray[0].length || 
@@ -65,53 +75,38 @@ function mySort(array){
             }
 }
 
-
 function loadQuestions(){
     for(groups = 0; groups < totalQuestions; groups++){
         duplicatedValue = false;
         // if not undefined or duplicated, push to array
         getFlagSet();
-        duplicatedValue = mySort(newQuestionsSet);
+        duplicatedValue = stopDuplicateFlag(newQuestionsSet);
         //console.log(duplicatedValue);
         while(duplicatedValue === true){
             newQuestionsSet = [];
             getFlagSet();
-            duplicatedValue = mySort(newQuestionsSet);
+            duplicatedValue = stopDuplicateFlag(newQuestionsSet);
         }
 
         finalSet.push(newQuestionsSet);
 
     } // Parent loop ends here
-
-    finalSet.forEach(function(element, index){
-        console.log(element + ' ' + index);
-    })
-
 }
 
 function startGame(){
-    
     loadQuestions();
-    //console.log(finalSet);
+    renderFlagsArray();
     // clock() should be at the end, once all the logic is loaded.
     clock();
 } 
 
-function hidePanel(){
-    $('#questionContainer').hide();
-}
-
 function showCorrectFlagInPanel(){
 // Render correct flag here
-    $('#questionTitle').hide();    
-    $('#flagContainer').empty();
-    $('#questionBody').hide();
-
-    $('#questionTitle').html('<h3>The correct flag is ' + countryName + '</h3>');
-    $('#flagContainer').html('<img src="assets/images/' + countryName + '.png"/>');
-
-    $('#questionTitle').show();    
-    $('#flagContainer').show();
+    hideQuestionContainer();
+    showPanelAnswer();
+    $('#panelAnswer').html(panelAnswer);
+    $('#answerTitle').html('<h3>The correct flag is ' + countryName + '</h3>');
+    $('#answerContainer').html('<img src="assets/images/' + countryName + '.png"/>');
 
     flagPause();
 }
@@ -120,14 +115,20 @@ function flagPause(){
         var timeoutID = window.setTimeout(renderFlagsArray, 3000);
 }
 
-function showPanel(){
+function showPanelAnswer(){
+    $('#panelAnswer').show();
+}
+
+function hidePanelAnswer(){
+    $('#panelAnswer').hide();
+}
+
+function showQuestionContainer(){
     $('#questionContainer').show();
 }
 
-function emptyValues(){
-    countryName = '';
-    renderedFlags = [];
-    currentAnswer = '';
+function hideQuestionContainer(){
+    $('#questionContainer').hide();
 }
 
 function emptyContainers(){
@@ -136,52 +137,39 @@ function emptyContainers(){
     $('#questionBody').empty();
 }
 
-/*function getRandomFlags(){
-    for(i = 0; i < maxFlags; i++){
-        activeFlag = flags[Math.floor(Math.random() * (1 + flags.length - 1))];
-        renderedFlags.push(activeFlag);
-    }
-
-    console.log(renderedFlags);
-    mySort(function(){
-        renderFlagsArray();
-    });
-}*/
-
 function getRandomCountryName(){
     countryName = finalSet[currentQuestion-1][Math.floor(Math.random() * (1 + finalSet[currentQuestion-1].length - 1))];
     return countryName;
 }
 
 function getQuestion(){
+    $('#questionTitle', '<h4>').show();
     $('#questionNumber').html(currentQuestion);
     $('#countryName').html(getRandomCountryName());
     newFlagArray = finalSet[currentQuestion-1];
     console.log(newFlagArray);
     for(i = 0; i < newFlagArray.length; i++){
-        $('#flagContainer').append('<img src="assets/images/' + newFlagArray[i] + '.png"/>');
+            $('#flagContainer').append('<img id="' + newFlagArray[i] + '" src="assets/images/' + newFlagArray[i] + '.png"/>');
     }
 }
 
 function renderFlagsArray(){
-    var panelContainer = $('<div class="panel panel-default">' + 
-        '<div class="panel-heading"><div id="panelText"><div id="questionTitle">' + 
-        '<h4>Question # <span id="questionNumber">0</span></h4>' + 
-        '<h4>Which flag belongs to <span id="countryName"></span></h4></div><div id="questionBody">' + 
-        '</div></div></div><div class="panel-body"><div id="flagContainer"></div></div></div>');
-
-    $('#questionContainer').append(panelContainer);
+    hidePanelAnswer();
+    $('#flagContainer').empty();
+    showQuestionContainer();
+    $('#questionContainer').html(panelContainer);
     getQuestion();
-
-
+    clickNload();
 }
  
  function clickNload(){
 // Onclick event for flags
     $('#flagContainer').one('click', (function(e){
-        currentAnswer = e.target.name;
-        //console.log("You've clicked on " + e.target.id);
+        console.log(e.target.id);
+        currentAnswer = e.target.id;
+        console.log("You've clicked on " + e.target.id);
         console.log(currentAnswer);
+
 
         if(currentAnswer === countryName){
             correctAnswers++;
@@ -209,13 +197,12 @@ function renderFlagsArray(){
 
         // Here I will make the panel dissappear and generate only the correct flag for 2 seconds...or 3. (I will compensate with extra time lol)
 
-
         showCorrectFlagInPanel();
     }));
 }
 
     function clock(){
-        //hidePanel();
+        //hideQuestionContainer();
     	$('#start').on('click', function(){
             stopwatch.start();
             $('#start').hide();
