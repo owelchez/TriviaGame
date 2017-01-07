@@ -40,8 +40,6 @@ var flags = [  "Honduras", "Japan", "Jamaica",
                 "Thailand", "Turkey"
             ];
 
-            clock();
-
 var panelContainer = $('<div class="panel panel-default">' + 
         '<div class="panel-heading"><div id="panelText"><div id="questionTitle">' + 
         '<h4>Question # <span id="questionNumber">0</span></h4>' + 
@@ -52,6 +50,8 @@ var panelAnswer = $('<div class="panel panel-default">' +
         '<div class="panel-heading"><div id="panelText"><div id="answerTitle">' + 
         '<h4></h4><h4></h4></div><div id="answerBody">' + 
         '</div></div></div><div class="panel-body"><div id="answerContainer"></div></div></div>');
+
+clock();
 
 // This function is working perfectly
 function getFlagSet(){
@@ -66,7 +66,6 @@ function getFlagSet(){
 
 function stopDuplicateFlag(array){
     var sortedArray = array.slice().sort();
-    //console.log(sortedArray);
             if(sortedArray[1].length === sortedArray[0].length || 
                 sortedArray[2].length === sortedArray[1].length || 
                 sortedArray[3].length === sortedArray[2].length){
@@ -109,8 +108,6 @@ function showCorrectFlagInPanel(){
 }
 
 function flagPause(){
-    stopCounter();
-    $('#timer').html(stopwatch.converted);
     var timeoutID = window.setTimeout(renderFlagsArray, 3000);
 }
 
@@ -131,8 +128,10 @@ function hideQuestionContainer(){
 }
 
 function getRandomCountryName(){
-    countryName = finalSet[currentQuestion-1][Math.floor(Math.random() * (1 + finalSet[currentQuestion-1].length - 1))];
-    return countryName;
+    if(currentQuestion <= totalQuestions){
+        countryName = finalSet[currentQuestion-1][Math.floor(Math.random() * (1 + finalSet[currentQuestion-1].length - 1))];
+            return countryName;
+    }
 }
 
 function getQuestion(){
@@ -148,16 +147,19 @@ function getQuestion(){
 function renderFlagsArray(){
     hidePanelAnswer();
     $('#flagContainer').empty();
-    showQuestionContainer();
-    $('#questionContainer').html(panelContainer);
-    getQuestion();
-    clickNload();
-}
 
-function stopCounter(){
-    breakCount = setInterval(stopwatch.stop, 6000);
-    stopwatch.time = 6;
-    $('#timer').html(stopwatch.converted);
+    showQuestionContainer();
+
+    if(currentQuestion > totalQuestions){
+        hideQuestionContainer();
+    }
+    
+    $('#questionContainer').html(panelContainer);
+    if(currentQuestion <= totalQuestions){
+        getQuestion();
+    }
+    
+    clickNload();
 }
  
  function clickNload(){
@@ -201,12 +203,11 @@ function stopCounter(){
     	$('#start').on('click', function(){
             $('#start').hide();
             $('#intro').hide();
-            stopwatch.start();
             startGame();
         });
     }
 
-    var stopwatch = {
+    /*var stopwatch = {
         time:6,
 
         start: function(){
@@ -239,3 +240,4 @@ function stopCounter(){
             return seconds;
         }
     }
+*/
