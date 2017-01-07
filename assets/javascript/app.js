@@ -2,7 +2,6 @@ const totalQuestions = 10;
 var minutes = 0;
 var seconds = 0;
 var stopTime = 0;
-var renderedFlags = [];
 var countryName = '';
 var currentQuestion = 1;
 var currentAnswer = '';
@@ -41,6 +40,8 @@ var flags = [  "Honduras", "Japan", "Jamaica",
                 "Thailand", "Turkey"
             ];
 
+            clock();
+
 var panelContainer = $('<div class="panel panel-default">' + 
         '<div class="panel-heading"><div id="panelText"><div id="questionTitle">' + 
         '<h4>Question # <span id="questionNumber">0</span></h4>' + 
@@ -51,8 +52,6 @@ var panelAnswer = $('<div class="panel panel-default">' +
         '<div class="panel-heading"><div id="panelText"><div id="answerTitle">' + 
         '<h4></h4><h4></h4></div><div id="answerBody">' + 
         '</div></div></div><div class="panel-body"><div id="answerContainer"></div></div></div>');
-
-startGame();
 
 // This function is working perfectly
 function getFlagSet(){
@@ -96,8 +95,6 @@ function loadQuestions(){
 function startGame(){
     loadQuestions();
     renderFlagsArray();
-    // clock() should be at the end, once all the logic is loaded.
-    clock();
 } 
 
 function showCorrectFlagInPanel(){
@@ -112,7 +109,9 @@ function showCorrectFlagInPanel(){
 }
 
 function flagPause(){
-        var timeoutID = window.setTimeout(renderFlagsArray, 3000);
+    stopCounter();
+    $('#timer').html(stopwatch.converted);
+    var timeoutID = window.setTimeout(renderFlagsArray, 3000);
 }
 
 function showPanelAnswer(){
@@ -131,12 +130,6 @@ function hideQuestionContainer(){
     $('#questionContainer').hide();
 }
 
-function emptyContainers(){
-    $('#flagContainer').empty();
-    $('#questionTitle').empty();
-    $('#questionBody').empty();
-}
-
 function getRandomCountryName(){
     countryName = finalSet[currentQuestion-1][Math.floor(Math.random() * (1 + finalSet[currentQuestion-1].length - 1))];
     return countryName;
@@ -147,7 +140,6 @@ function getQuestion(){
     $('#questionNumber').html(currentQuestion);
     $('#countryName').html(getRandomCountryName());
     newFlagArray = finalSet[currentQuestion-1];
-    console.log(newFlagArray);
     for(i = 0; i < newFlagArray.length; i++){
             $('#flagContainer').append('<img id="' + newFlagArray[i] + '" src="assets/images/' + newFlagArray[i] + '.png"/>');
     }
@@ -160,6 +152,12 @@ function renderFlagsArray(){
     $('#questionContainer').html(panelContainer);
     getQuestion();
     clickNload();
+}
+
+function stopCounter(){
+    breakCount = setInterval(stopwatch.stop, 6000);
+    stopwatch.time = 6;
+    $('#timer').html(stopwatch.converted);
 }
  
  function clickNload(){
@@ -195,22 +193,21 @@ function renderFlagsArray(){
         console.log('You have answered correct ' + correctAnswers);
         console.log('You have answered wrong ' + wrongAnswers);
 
-        // Here I will make the panel dissappear and generate only the correct flag for 2 seconds...or 3. (I will compensate with extra time lol)
-
         showCorrectFlagInPanel();
     }));
 }
 
     function clock(){
-        //hideQuestionContainer();
     	$('#start').on('click', function(){
-            stopwatch.start();
             $('#start').hide();
+            $('#intro').hide();
+            stopwatch.start();
+            startGame();
         });
-    };
+    }
 
     var stopwatch = {
-    	time:0,
+        time:6,
 
         start: function(){
             counter = setInterval(stopwatch.count, 1000);
@@ -221,9 +218,16 @@ function renderFlagsArray(){
         },
         
         count: function(){
-            stopwatch.time++;
+            stopwatch.time--;
             var converted = stopwatch.timeConverter(stopwatch.time);
             $('#timer').html(converted);
+            if(stopwatch.time === 0){
+                userChoices.push('Bad Flag');
+                console.log(userChoices);
+                wrongAnswers++;
+                currentQuestion++;
+                showCorrectFlagInPanel();
+            }
         },
 
         timeConverter: function(t){
@@ -232,11 +236,6 @@ function renderFlagsArray(){
             if (seconds < 10){
                 seconds = "0" + seconds;
             }
-            if (minutes === 0){
-                minutes = "00";
-            } else if (minutes < 10){
-                minutes = "0" + minutes;
-            }
-            return minutes + ":" + seconds;
+            return seconds;
         }
     }
