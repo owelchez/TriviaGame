@@ -50,6 +50,20 @@ body
 	margin-bottom: 10px;
 }
 
+#youChoicesContainer
+{
+	width: 40%;
+	text-align: center;
+	float: left;
+}
+
+#correctContainer
+{
+	width: 40%;
+	text-align: center;
+	float: right;
+}
+
 #wrapper
 {
 	width: 90px;
