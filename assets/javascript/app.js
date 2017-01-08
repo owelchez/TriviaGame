@@ -8,6 +8,7 @@ var currentAnswer = '';
 var finalSet = [];
 var newQuestionsSet = [];
 var duplicatedValue = false;
+var timeoutID;
 
 /*******************************************************/
                  /*User inputs' variables*/
@@ -107,8 +108,34 @@ function showCorrectFlagInPanel(){
     flagPause();
 }
 
+function showCorrectFlagInPanelTimeout(){
+// Render correct flag here
+
+    hideQuestionContainer();
+    showPanelAnswer();
+    $('#panelAnswer').html(panelAnswer);
+    $('#answerTitle').html('<h3>The correct flag is ' + countryName + '</h3>');
+    $('#answerContainer').html('<img src="assets/images/' + countryName + '.png"/>');
+
+
+    currentQuestion++;
+    wrongAnswers++;
+    userChoices.push('Bad Flag');
+    console.log(wrongAnswers);
+    console.log(userChoices);
+
+    if(currentQuestion <= totalQuestions){
+        flagPause();
+    }
+
+    if(currentQuestion > totalQuestions){
+        hideQuestionContainer();
+        timeoutID = window.setTimeout(hidePanelAnswer, 3000);
+    }
+}
+
 function flagPause(){
-    var timeoutID = window.setTimeout(renderFlagsArray, 3000);
+    timeoutID = window.setTimeout(renderFlagsArray, 3000);
 }
 
 function showPanelAnswer(){
@@ -160,16 +187,21 @@ function renderFlagsArray(){
     }
     
     clickNload();
+
+    timeoutID = window.setTimeout(showCorrectFlagInPanelTimeout, 6000);
 }
  
  function clickNload(){
 // Onclick event for flags
     $('#flagContainer').one('click', (function(e){
+        window.clearTimeout(timeoutID);
         console.log(e.target.id);
         currentAnswer = e.target.id;
         console.log("You've clicked on " + e.target.id);
         console.log(currentAnswer);
 
+        $('#yourFlags').prepend('<img id="' + currentAnswer + '" src="assets/images/' + currentAnswer + '.png"/>');
+        $('#correctFlags').prepend('<img id="' + countryName + '" src="assets/images/' + countryName + '.png"/>');
 
         if(currentAnswer === countryName){
             correctAnswers++;
@@ -179,6 +211,7 @@ function renderFlagsArray(){
             console.log("Correct Answers " + correctAnswers);
             randomChoices.push(countryName);
             console.log("The computer generated choices are..." + randomChoices);
+
         } 
         else if(currentAnswer !== countryName){
             wrongAnswers++;
@@ -203,11 +236,12 @@ function renderFlagsArray(){
     	$('#start').on('click', function(){
             $('#start').hide();
             $('#intro').hide();
+            stopwatch.start();
             startGame();
         });
     }
 
-    /*var stopwatch = {
+    var stopwatch = {
         time:6,
 
         start: function(){
@@ -223,11 +257,8 @@ function renderFlagsArray(){
             var converted = stopwatch.timeConverter(stopwatch.time);
             $('#timer').html(converted);
             if(stopwatch.time === 0){
-                userChoices.push('Bad Flag');
-                console.log(userChoices);
-                wrongAnswers++;
-                currentQuestion++;
-                showCorrectFlagInPanel();
+                stopwatch.stop();
+                stopwatch.time = 6;
             }
         },
 
@@ -240,4 +271,3 @@ function renderFlagsArray(){
             return seconds;
         }
     }
-*/
