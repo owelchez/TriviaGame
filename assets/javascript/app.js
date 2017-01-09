@@ -53,6 +53,7 @@ var panelAnswer = $('<div class="panel panel-default">' +
         '</div></div></div><div class="panel-body"><div id="answerContainer"></div></div></div>');
 
 clock();
+hideChosenFlags();
 
 // This function is working perfectly
 function getFlagSet(){
@@ -105,7 +106,12 @@ function showCorrectFlagInPanel(){
     $('#answerTitle').html('<h3>The correct flag is ' + countryName + '</h3>');
     $('#answerContainer').html('<img src="assets/images/' + countryName + '.png"/>');
 
-    flagPause();
+    if(currentQuestion <= totalQuestions){
+        flagPause();
+    } else {
+        timeoutID = window.setInterval(hidePanelAnswer, 3000);
+        timeoutID1 = window.setInterval(showChosenFlags, 3000);
+    }
 }
 
 function showCorrectFlagInPanelTimeout(){
@@ -154,6 +160,16 @@ function hideQuestionContainer(){
     $('#questionContainer').hide();
 }
 
+function hideChosenFlags(){
+    $('#youChoicesContainer').hide();
+    $('#correctContainer').hide();
+}
+
+function showChosenFlags(){
+    $('#youChoicesContainer').show();
+    $('#correctContainer').show();
+}
+
 function getRandomCountryName(){
     if(currentQuestion <= totalQuestions){
         countryName = finalSet[currentQuestion-1][Math.floor(Math.random() * (1 + finalSet[currentQuestion-1].length - 1))];
@@ -194,7 +210,7 @@ function renderFlagsArray(){
  function clickNload(){
 // Onclick event for flags
     $('#flagContainer').one('click', (function(e){
-        window.clearTimeout(timeoutID);
+        window.clearTimeout(timeoutID); // Here I disable onclick events after some time (timeoutID value)
         console.log(e.target.id);
         currentAnswer = e.target.id;
         console.log("You've clicked on " + e.target.id);
@@ -228,7 +244,9 @@ function renderFlagsArray(){
         console.log('You have answered correct ' + correctAnswers);
         console.log('You have answered wrong ' + wrongAnswers);
 
-        showCorrectFlagInPanel();
+        if(currentQuestion <= (totalQuestions + 1)){
+            showCorrectFlagInPanel();
+        }
     }));
 }
 
@@ -241,6 +259,11 @@ function renderFlagsArray(){
         });
     }
 
+    function clock1(){
+        stopwatch.start();
+    
+    }
+
     var stopwatch = {
         time:6,
 
@@ -250,6 +273,10 @@ function renderFlagsArray(){
 
         stop: function(){
             clearInterval(counter);
+        },
+
+        reset: function(){
+
         },
         
         count: function(){
