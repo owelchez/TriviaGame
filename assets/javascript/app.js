@@ -53,7 +53,7 @@ var panelAnswer = $('<div class="panel panel-default">' +
         '</div></div></div><div class="panel-body"><div id="answerContainer"></div></div></div>');
 
 clock();
-hideChosenFlags();
+//hideChosenFlags();
 
 // This function is working perfectly
 function getFlagSet(){
@@ -119,6 +119,10 @@ function showCorrectFlagInPanelTimeout(){
 
     hideQuestionContainer();
     showPanelAnswer();
+    $('#yourFlags > strong > h4').append(currentAnswer);
+    $('#yourFlags').prepend('<img id="Bad Flag" src="assets/images/Bad Flag.png"/>') &&
+    ;
+    $('#correctFlags').prepend('<img id="' + countryName + '" src="assets/images/' + countryName + '.png"/>');
     $('#panelAnswer').html(panelAnswer);
     $('#answerTitle').html('<h3>The correct flag is ' + countryName + '</h3>');
     $('#answerContainer').html('<img src="assets/images/' + countryName + '.png"/>');
@@ -216,7 +220,9 @@ function renderFlagsArray(){
         console.log("You've clicked on " + e.target.id);
         console.log(currentAnswer);
 
+        $('#yourFlags > strong > h4').prepend(currentAnswer);
         $('#yourFlags').prepend('<img id="' + currentAnswer + '" src="assets/images/' + currentAnswer + '.png"/>');
+        $('#correctFlags > strong > h4').prepend(countryName);
         $('#correctFlags').prepend('<img id="' + countryName + '" src="assets/images/' + countryName + '.png"/>');
 
         if(currentAnswer === countryName){
