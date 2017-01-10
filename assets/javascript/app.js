@@ -52,8 +52,9 @@ var panelAnswer = $('<div class="panel panel-default">' +
         '<h4></h4><h4></h4></div><div id="answerBody">' + 
         '</div></div></div><div class="panel-body"><div id="answerContainer"></div></div></div>');
 
-clock();
-//hideChosenFlags();
+        clock();
+        hideChosenFlags();
+
 
 // This function is working perfectly
 function getFlagSet(){
@@ -111,6 +112,7 @@ function showCorrectFlagInPanel(){
     } else {
         timeoutID = window.setInterval(hidePanelAnswer, 3000);
         timeoutID1 = window.setInterval(showChosenFlags, 3000);
+        timeoutID1 = window.setTimeout(renderResults, 3000);
     }
 }
 
@@ -119,20 +121,18 @@ function showCorrectFlagInPanelTimeout(){
 
     hideQuestionContainer();
     showPanelAnswer();
-    $('#yourFlags > strong > h4').append(currentAnswer);
-    $('#yourFlags').prepend('<img id="Bad Flag" src="assets/images/Bad Flag.png"/>') &&
-    ;
-    $('#correctFlags').prepend('<img id="' + countryName + '" src="assets/images/' + countryName + '.png"/>');
     $('#panelAnswer').html(panelAnswer);
     $('#answerTitle').html('<h3>The correct flag is ' + countryName + '</h3>');
     $('#answerContainer').html('<img src="assets/images/' + countryName + '.png"/>');
 
-
     currentQuestion++;
     wrongAnswers++;
     userChoices.push('Bad Flag');
+    randomChoices.push(countryName);
+
     console.log(wrongAnswers);
-    console.log(userChoices);
+    console.log(' These are my choices ' + userChoices);
+    console.log('These are the computer choices ' + randomChoices);
 
     if(currentQuestion <= totalQuestions){
         flagPause();
@@ -141,6 +141,8 @@ function showCorrectFlagInPanelTimeout(){
     if(currentQuestion > totalQuestions){
         hideQuestionContainer();
         timeoutID = window.setTimeout(hidePanelAnswer, 3000);
+        timeoutID = window.setTimeout(showChosenFlags, 3000);
+        timeoutID1 = window.setTimeout(renderResults, 3000);
     }
 }
 
@@ -165,12 +167,12 @@ function hideQuestionContainer(){
 }
 
 function hideChosenFlags(){
-    $('#youChoicesContainer').hide();
+    $('#yourChoicesContainer').hide();
     $('#correctContainer').hide();
 }
 
 function showChosenFlags(){
-    $('#youChoicesContainer').show();
+    $('#yourChoicesContainer').show();
     $('#correctContainer').show();
 }
 
@@ -210,6 +212,20 @@ function renderFlagsArray(){
 
     timeoutID = window.setTimeout(showCorrectFlagInPanelTimeout, 6000);
 }
+
+function renderResults(){
+    showChosenFlags();
+
+    for(i = userChoices.length - 1; i >= 0; i--){
+        $('#yourFlags').append('<div id="' + i + '"><img id="' + userChoices[i] + '" src="assets/images/' + userChoices[i] + '.png"/>');
+        $('#yourFlags').append('<strong>' + userChoices[i] + '</strong></div>')
+    }
+
+    for(i = randomChoices.length - 1; i >= 0; i--){
+        $('#correctFlags').append('<div id="' + i + '"><img id="' + randomChoices[i] + '" src="assets/images/' + randomChoices[i] + '.png"/>');
+        $('#correctFlags').append('<strong>' + randomChoices[i] + '</strong></div>')
+    }
+}
  
  function clickNload(){
 // Onclick event for flags
@@ -219,11 +235,6 @@ function renderFlagsArray(){
         currentAnswer = e.target.id;
         console.log("You've clicked on " + e.target.id);
         console.log(currentAnswer);
-
-        $('#yourFlags > strong > h4').prepend(currentAnswer);
-        $('#yourFlags').prepend('<img id="' + currentAnswer + '" src="assets/images/' + currentAnswer + '.png"/>');
-        $('#correctFlags > strong > h4').prepend(countryName);
-        $('#correctFlags').prepend('<img id="' + countryName + '" src="assets/images/' + countryName + '.png"/>');
 
         if(currentAnswer === countryName){
             correctAnswers++;
@@ -263,11 +274,6 @@ function renderFlagsArray(){
             stopwatch.start();
             startGame();
         });
-    }
-
-    function clock1(){
-        stopwatch.start();
-    
     }
 
     var stopwatch = {
