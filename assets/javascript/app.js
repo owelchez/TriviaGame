@@ -21,24 +21,36 @@ var randomChoices = [];
 
 /*******************************************************/
 
-var flags = [  "Honduras", "Japan", "Jamaica",
-                "USA", "Panama", "Germany",
-                "Argentina", "Austria", "Barbados",
-                "Belgium", "Belize", "Bolivia",
-                "Brazil", "Bulgaria", "Canada",
-                "Chile", "China", "Colombia",
+var flags = [  "Honduras", "Japan", "Jamaica", "Angola",
+                "USA", "Panama", "Germany", "Oman", "Aruba",
+                "Argentina", "Austria", "Barbados", "Paraguay",
+                "Belgium", "Belize", "Bolivia", "Zimbabwe",
+                "Brazil", "Bulgaria", "Canada", "Ukraine",
+                "Chile", "China", "Colombia", "Vietnam",
                 "Cuba", "Dominican Republic", "Ecuador",
-                "Egypt", "El Salvador", "Estonia",
-                "France", "Greece", "Guatemala",
-                "India", "Ireland", "Israel",
-                "Italy", "Kenya", "Uruguay",
-                "Laos", "Madagascar", "Mexico",
+                "Egypt", "El Salvador", "Estonia", "Lebanon",
+                "France", "Greece", "Guatemala", "Bahamas",
+                "India", "Ireland", "Israel", "Zambia",
+                "Italy", "Kenya", "Uruguay", "Syria", "Puerto Rico",
+                "Laos", "Madagascar", "Mexico", "Norway",
                 "Mongolia", "Netherlands", "Nicaragua",
-                "Peru", "Philippines",
-                "Poland", "Portugal", "Saudi Arabia",
+                "Peru", "Philippines", "Belarus", "Yemen",
+                "Poland", "Portugal", "Saudi Arabia", "Bahrain", 
                 "Slovakia", "South Africa", "South Korea",
-                "Spain", "Sweden", "Switzerland",
-                "Thailand", "Turkey"
+                "Spain", "Sweden", "Switzerland", "Botswana",
+                "Thailand", "Turkey", "American Samoa", "Afghanistan",
+                "Trinidad and Tobago", "Senegal", "Sudan", "Armenia", 
+                "Sri Lanka", "Nepal", "Nigeria", "Morocco", "Hungary",
+                "Iceland", "Macedonia", "Luxembourg", "Malaysia", 
+                "Russia", "Croatia", "Ghana", "Guyana", "Benin", 
+                "Burkina Faso", "Bhutan", "Brunei", "Cambodia", "Gambia", "Iran",
+                "Ivory Coast", "Hong Kong", "Lithuania", "Costa Rica",
+                "Iraq", "North Korea", "Australia", "Azerbaijan", "Romania",
+                "Serbia and Montenegro", "Suriname", "Slovenia", 
+                "Bosnia", "Denmark", "Cape Verde", "Bangladesh", "Pakistan",
+                "Czech Republic", "Cameroon", "Ethiopia", "Dominica", "Qatar",
+                "Taiwan", "Cyprus", "Burundi", "Albania", "Antigua and Barbuda",
+                "Algeria", "Finland", "Uzbekistan", "Andorra" 
             ];
 
 var panelContainer = $('<div class="panel panel-default">' + 
@@ -118,7 +130,6 @@ function showCorrectFlagInPanel(){
 
 function showCorrectFlagInPanelTimeout(){
 // Render correct flag here
-
     hideQuestionContainer();
     showPanelAnswer();
     $('#panelAnswer').html(panelAnswer);
@@ -127,7 +138,7 @@ function showCorrectFlagInPanelTimeout(){
 
     currentQuestion++;
     wrongAnswers++;
-    userChoices.push('Bad Flag');
+    userChoices.push('Incorrect');
     randomChoices.push(countryName);
 
     console.log(wrongAnswers);
@@ -195,6 +206,7 @@ function getQuestion(){
 
 function renderFlagsArray(){
     hidePanelAnswer();
+    stopwatch.start();
     $('#flagContainer').empty();
 
     showQuestionContainer();
@@ -210,7 +222,7 @@ function renderFlagsArray(){
     
     clickNload();
 
-    timeoutID = window.setTimeout(showCorrectFlagInPanelTimeout, 6000);
+    timeoutID = window.setTimeout(showCorrectFlagInPanelTimeout, 5000);
 }
 
 function renderResults(){
@@ -227,57 +239,58 @@ function renderResults(){
     }
 }
  
- function clickNload(){
-// Onclick event for flags
-    $('#flagContainer').one('click', (function(e){
-        window.clearTimeout(timeoutID); // Here I disable onclick events after some time (timeoutID value)
-        console.log(e.target.id);
-        currentAnswer = e.target.id;
-        console.log("You've clicked on " + e.target.id);
-        console.log(currentAnswer);
+    function clickNload(){
+        // Onclick event for flags
+        $('img').one('click', (function(e){
+            window.clearTimeout(timeoutID); // Here I disable onclick events after some time (timeoutID value)
+            console.log(e.target.id);
+            currentAnswer = e.target.id;
+            console.log("You've clicked on " + e.target.id);
+            console.log(currentAnswer);
 
-        if(currentAnswer === countryName){
-            correctAnswers++;
-            userChoices.push(currentAnswer);
-            console.log("Your choices so far are..." + userChoices);
-            console.log("You are correct!!");
-            console.log("Correct Answers " + correctAnswers);
-            randomChoices.push(countryName);
-            console.log("The computer generated choices are..." + randomChoices);
+            if(currentAnswer === countryName){
+                correctAnswers++;
+                userChoices.push(currentAnswer);
+                console.log("Your choices so far are..." + userChoices);
+                console.log("You are correct!!");
+                console.log("Correct Answers " + correctAnswers);
+                randomChoices.push(countryName);
+                console.log("The computer generated choices are..." + randomChoices);
 
-        } 
-        else if(currentAnswer !== countryName){
-            wrongAnswers++;
-            console.log("You've fucked up!!");
-            console.log("Wrong answers " + wrongAnswers);
-            userChoices.push(currentAnswer);
-            console.log("Your choices so far are..." + userChoices);
-            randomChoices.push(countryName);
-            console.log("The computer generated choices are..." + randomChoices);
-        }
+            } 
+            else if(currentAnswer !== countryName){
+                wrongAnswers++;
+                console.log("You've fucked up!!");
+                console.log("Wrong answers " + wrongAnswers);
+                userChoices.push(currentAnswer);
+                console.log("Your choices so far are..." + userChoices);
+                randomChoices.push(countryName);
+                console.log("The computer generated choices are..." + randomChoices);
+            }
 
-        currentQuestion++;
+            currentQuestion++;
 
-        console.log('You have answered correct ' + correctAnswers);
-        console.log('You have answered wrong ' + wrongAnswers);
+            console.log('You have answered correct ' + correctAnswers);
+            console.log('You have answered wrong ' + wrongAnswers);
 
-        if(currentQuestion <= (totalQuestions + 1)){
-            showCorrectFlagInPanel();
-        }
-    }));
-}
+            if(currentQuestion <= (totalQuestions + 1)){
+                stopwatch.stop();
+                stopwatch.reset();
+                showCorrectFlagInPanel();
+            }
+        }));
+    }
 
     function clock(){
     	$('#start').on('click', function(){
             $('#start').hide();
             $('#intro').hide();
-            stopwatch.start();
             startGame();
         });
     }
 
     var stopwatch = {
-        time:6,
+        time:5,
 
         start: function(){
             counter = setInterval(stopwatch.count, 1000);
@@ -288,7 +301,8 @@ function renderResults(){
         },
 
         reset: function(){
-
+            stopwatch.time = 5;
+            $('#timer').html('5');
         },
         
         count: function(){
@@ -297,7 +311,7 @@ function renderResults(){
             $('#timer').html(converted);
             if(stopwatch.time === 0){
                 stopwatch.stop();
-                stopwatch.time = 6;
+                stopwatch.reset();
             }
         },
 
@@ -305,7 +319,7 @@ function renderResults(){
             minutes = Math.floor(t/60);
             seconds = t - (minutes * 60);
             if (seconds < 10){
-                seconds = "0" + seconds;
+                seconds = seconds;
             }
             return seconds;
         }
