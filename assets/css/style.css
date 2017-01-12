@@ -12,6 +12,12 @@ body
 	background-image: url('../images/gradient4.jpg');
 }
 
+button
+{
+	border-radius: 5px;
+	background-color: #ff2d57;
+}
+
 .container
 {
 	width: 732px;
@@ -22,6 +28,11 @@ body
 {
 	background-image: url('../images/banner.jpg');
 	background-size: cover;
+}
+
+#playAgain
+{
+	text-align: center;
 }
 
 #flagContainer

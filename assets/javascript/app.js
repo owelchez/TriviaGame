@@ -1,7 +1,6 @@
 const totalQuestions = 10;
 var minutes = 0;
 var seconds = 0;
-var stopTime = 0;
 var countryName = '';
 var currentQuestion = 1;
 var currentAnswer = '';
@@ -50,7 +49,7 @@ var flags = [  "Honduras", "Japan", "Jamaica", "Angola",
                 "Bosnia", "Denmark", "Cape Verde", "Bangladesh", "Pakistan",
                 "Czech Republic", "Cameroon", "Ethiopia", "Dominica", "Qatar",
                 "Taiwan", "Cyprus", "Burundi", "Albania", "Antigua and Barbuda",
-                "Algeria", "Finland", "Uzbekistan", "Andorra" 
+                "Algeria", "Finland", "Uzbekistan", "Andorra", "Kosovo" 
             ];
 
 var panelContainer = $('<div class="panel panel-default">' + 
@@ -64,9 +63,12 @@ var panelAnswer = $('<div class="panel panel-default">' +
         '<h4></h4><h4></h4></div><div id="answerBody">' + 
         '</div></div></div><div class="panel-body"><div id="answerContainer"></div></div></div>');
 
-        clock();
-        hideChosenFlags();
-
+startGame();
+        
+function startGame(){
+    clock();
+    hideChosenFlags();
+}
 
 function getFlagSet(){
     const maxFlags = 4;
@@ -104,7 +106,7 @@ function loadQuestions(){
     } // Parent loop ends here
 }
 
-function startGame(){
+function prepareGame(){
     loadQuestions();
     renderFlagsArray();
 } 
@@ -236,14 +238,22 @@ function renderResults(){
         $('#correctFlags').append('<strong>' + randomChoices[i] + '</strong></div>')
     }
  
-    console.log(correctAnswers);
-    console.log(wrongAnswers);
-
-    var ending = $('<div class="area">Excellent!!</div>');
-     
-    if(correctAnswers > 7 && correctAnswers <= 9){
-        $('#lastMessage').append(ending);
+    if(correctAnswers === 10){
+        $('#lastMessage').append($('<div class="area">Perfect!!</div>'));
+    } else if(correctAnswers > 7 && correctAnswers <= 9){
+        $('#lastMessage').append($('<div class="area">Excellent!!</div>'));
+    } else if(correctAnswers > 5 && correctAnswers <= 7){
+        $('#lastMessage').append($('<div class="area">Decent!!</div>'));
+    } else {
+        $('#lastMessage').append($('<div class="area">Go back to school!!</div>'));
     }
+
+    $('#playAgain').append($('<button id="startGame">PLAY AGAIN</button>'));
+
+    $('#startGame').on('click', function(){
+        window.location.reload();
+    })
+
 }
  
     function clickNload(){
@@ -292,7 +302,7 @@ function renderResults(){
     	$('#start').on('click', function(){
             $('#start').hide();
             $('#intro').hide();
-            startGame();
+            prepareGame();
         });
     }
 
