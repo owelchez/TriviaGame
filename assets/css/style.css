@@ -4,14 +4,18 @@ img
 	margin: 10px;
 	width: 140px;
 	height: 75px;
-
 }
-
 
 body
 {
 	position: relative;
 	background-image: url('../images/gradient4.jpg');
+}
+
+button
+{
+	border-radius: 5px;
+	background-color: #ff2d57;
 }
 
 .container
@@ -24,6 +28,11 @@ body
 {
 	background-image: url('../images/banner.jpg');
 	background-size: cover;
+}
+
+#playAgain
+{
+	text-align: center;
 }
 
 #flagContainer
@@ -113,4 +122,43 @@ body
 {
 	background-color: bisque;
 	margin: 0 auto;
+}
+
+	/*The following belongs to moklick*/
+
+body{
+ background: #111;
+}
+.area{
+  text-align:center;
+  font-size:4em;
+  color:#760b1d;
+  letter-spacing: -7px;
+  font-weight:500;
+  text-transform:uppercase;
+  animation:blur .65s ease-out infinite;
+  text-shadow:0px 0px 5px #fff,
+      0px 0px 7px #fff;
+}
+
+@keyframes blur{
+  from{
+      text-shadow:0px 0px 10px #fff,
+      0px 0px 10px #fff, 
+      0px 0px 25px #fff,
+      0px 0px 25px #fff,
+      0px 0px 25px #fff,
+      0px 0px 25px #fff,
+      0px 0px 25px #fff,
+      0px 0px 25px #fff,
+      0px 0px 50px #fff,
+      0px 0px 50px #fff,
+      0px 0px 50px #7B96B8,
+      0px 0px 150px #7B96B8,
+      0px 10px 100px #7B96B8,
+      0px 10px 100px #7B96B8,
+      0px 10px 100px #7B96B8,
+      0px 10px 100px #7B96B8,
+      0px -10px 100px #7B96B8,
+      0px -10px 100px #7B96B8;}
 }
