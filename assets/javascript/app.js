@@ -239,13 +239,13 @@ function renderResults(){
     }
  
     if(correctAnswers === 10){
-        $('#lastMessage').append($('<div class="area">Perfect!!</div>'));
+        $('#lastMessage').append($('<div class="area">' + correctAnswers + '/' + totalQuestions + ' Perfect!!</div>'));
     } else if(correctAnswers > 7 && correctAnswers <= 9){
-        $('#lastMessage').append($('<div class="area">Excellent!!</div>'));
+        $('#lastMessage').append($('<div class="area">' + correctAnswers + '/' + totalQuestions + ' Excellent!!</div>'));
     } else if(correctAnswers > 5 && correctAnswers <= 7){
-        $('#lastMessage').append($('<div class="area">Decent!!</div>'));
+        $('#lastMessage').append($('<div class="area">' + correctAnswers + '/' + totalQuestions + ' Decent!!</div>'));
     } else {
-        $('#lastMessage').append($('<div class="area">Go back to school!!</div>'));
+        $('#lastMessage').append($('<div class="area">' + correctAnswers + '/' + totalQuestions + ' Go back to school!!</div>'));
     }
 
     $('#playAgain').append($('<button id="startGame">PLAY AGAIN</button>'));
