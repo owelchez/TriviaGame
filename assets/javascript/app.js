@@ -68,14 +68,12 @@ var panelAnswer = $('<div class="panel panel-default">' +
         hideChosenFlags();
 
 
-// This function is working perfectly
 function getFlagSet(){
     const maxFlags = 4;
     newQuestionsSet = [];
         for(i = 0; i < maxFlags; i++){
             activeFlag = flags[Math.floor(Math.random() * (1 + flags.length - 1))];
             newQuestionsSet.push(activeFlag);
-            //console.log('This is newQuestionsSet ' + newQuestionsSet);
         }
 }
 
@@ -236,6 +234,15 @@ function renderResults(){
     for(i = randomChoices.length - 1; i >= 0; i--){
         $('#correctFlags').append('<div id="' + i + '"><img id="' + randomChoices[i] + '" src="assets/images/' + randomChoices[i] + '.png"/>');
         $('#correctFlags').append('<strong>' + randomChoices[i] + '</strong></div>')
+    }
+ 
+    console.log(correctAnswers);
+    console.log(wrongAnswers);
+
+    var ending = $('<div class="area">Excellent!!</div>');
+     
+    if(correctAnswers > 7 && correctAnswers <= 9){
+        $('#lastMessage').append(ending);
     }
 }
  
