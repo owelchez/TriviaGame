@@ -94,7 +94,6 @@ function loadQuestions(){
         // if not undefined or duplicated, push to array
         getFlagSet();
         duplicatedValue = stopDuplicateFlag(newQuestionsSet);
-        //console.log(duplicatedValue);
         while(duplicatedValue === true){
             newQuestionsSet = [];
             getFlagSet();
@@ -140,10 +139,6 @@ function showCorrectFlagInPanelTimeout(){
     wrongAnswers++;
     userChoices.push('Incorrect');
     randomChoices.push(countryName);
-
-    console.log(wrongAnswers);
-    console.log(' These are my choices ' + userChoices);
-    console.log('These are the computer choices ' + randomChoices);
 
     if(currentQuestion <= totalQuestions){
         flagPause();
@@ -260,35 +255,21 @@ function renderResults(){
         // Onclick event for flags
         $('img').one('click', (function(e){
             window.clearTimeout(timeoutID); // Here I disable onclick events after some time (timeoutID value)
-            console.log(e.target.id);
             currentAnswer = e.target.id;
-            console.log("You've clicked on " + e.target.id);
-            console.log(currentAnswer);
 
             if(currentAnswer === countryName){
                 correctAnswers++;
                 userChoices.push(currentAnswer);
-                console.log("Your choices so far are..." + userChoices);
-                console.log("You are correct!!");
-                console.log("Correct Answers " + correctAnswers);
                 randomChoices.push(countryName);
-                console.log("The computer generated choices are..." + randomChoices);
 
             } 
             else if(currentAnswer !== countryName){
                 wrongAnswers++;
-                console.log("You've fucked up!!");
-                console.log("Wrong answers " + wrongAnswers);
                 userChoices.push(currentAnswer);
-                console.log("Your choices so far are..." + userChoices);
                 randomChoices.push(countryName);
-                console.log("The computer generated choices are..." + randomChoices);
             }
 
             currentQuestion++;
-
-            console.log('You have answered correct ' + correctAnswers);
-            console.log('You have answered wrong ' + wrongAnswers);
 
             if(currentQuestion <= (totalQuestions + 1)){
                 stopwatch.stop();
