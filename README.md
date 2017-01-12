@@ -2,22 +2,18 @@
 
 This is a "Guess the right flag" themed Trivia Game. Test your country flags knowledge or simply show off going at it against your friends.
 
-## Start the game
+## Start
 
-![alt text]("Container")
-
-##Start
-
-![alt text]("Container")
+![alt text](https://github.com/owelchez/TriviaGame/blob/master/readme/start.jpg "Start")
 
 ##Set of flags
 
-![alt text]("Container")
+![alt text](https://github.com/owelchez/TriviaGame/blob/master/readme/flagSet.jpg "Set of flags")
 
 ##Correct flag
 
-![alt text]("Container")
+![alt text](https://github.com/owelchez/TriviaGame/blob/master/readme/correctFlag.jpg "Correct flag")
 
-##Perfect
+##Perfect!!
 
-![alt text]("Container")
+![alt text](https://github.com/owelchez/TriviaGame/blob/master/readme/perfect.jpg "Perfect")
